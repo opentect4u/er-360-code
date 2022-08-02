@@ -1,0 +1,299 @@
+<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+	<div class="text-left navbar-brand-wrapper d-flex logo"><img src="assets/images/logoWhit.png" alt=""/>
+    <!-- <b class="m-auto Blink text-success" style="font-size: 10px;">{{_ActiveIncNum}} Incident Activated</b> -->
+
+	</div>
+	<div class="navbar-menu-wrapper d-flex align-items-center">
+		<div class="breadCamp" *ngIf='active_flag!=0'>
+			<!--<a><i class="fa {{icon}}" aria-hidden="true"></i></a>  <strong>{{headername}}</strong> -->
+			<div class="insidentDataCont" *ngIf="Inc_Name!= ''">
+			<ul class="topinsidentData2 topinsidentData2_1">
+			<li class="typeCl locationCl" #tooltip="matTooltip" matTooltip="{{Inc_type}}"><strong>Type:</strong>
+        {{(Inc_type.length > 20 ) ? (Inc_type | slice:0:18)+'..':(Inc_type)}}
+
+      </li>
+			<li class="nameCl locationCl active dropdown"  >
+        <strong >Name:</strong>
+        <span #tooltip="matTooltip" matTooltip="{{Inc_Name}}">{{(Inc_Name.length > 20 )? (Inc_Name | slice:0:18)+'..':(Inc_Name)}}</span>
+
+        <a #tooltip="matTooltip" matTooltip="click to preview all incident list"  data-toggle="dropdown" *ngIf="_activeIncBackup.length > 1" aria-haspopup="true" role="button" aria-expanded="false"><mat-icon class="customArrow">arrow_downward</mat-icon></a>
+        <div class="dropdown-menu dropdown-menu-end dropdownActive p-3" aria-labelledby="navbarDropdown">
+         <ul class="list-unstyled" *ngIf="_selected_Inc !=''">
+          <li  class="text-success d-flex">
+            <mat-icon class="d-flex align-items-center selectedIcon">done</mat-icon>
+            <small >{{_selected_Inc}}</small>
+            <mat-icon class="d-flex align-items-center text-danger selectedIcon" *ngIf="_max_id.inc_no == localStorageAlice.getItem('Inc_No')">beenhere</mat-icon>
+
+          <hr/>
+          </li>
+         </ul>
+
+          <ul class="list-unstyled " *ngFor="let activeInc of _activeInc;let i=index">
+            <li #tooltip="matTooltip" matTooltip="Select {{activeInc.inc_name}} " role="button" class="d-flex pt-3" (click)="active_incident(activeInc.inc_name,activeInc.inc_no,activeInc.id)">
+              <mat-icon class="d-flex align-items-center selectedIcon text-danger" *ngIf='_max_id.inc_no == activeInc.inc_no'>beenhere</mat-icon>
+              <small class="fs-5" [ngClass]="_max_id.inc_no == activeInc.inc_no ? 'fs-5 font-weight-bold text-danger': 'fs-5 font-weight-bold text-center'">
+                {{activeInc.inc_name}} ({{activeInc.inc_no}})</small>
+            </li>
+          </ul>
+          </div>
+      </li>
+			</ul>
+			<ul class="topinsidentData2 topinsidentData2_2">
+			<li class="tierCl locationCl" #tooltip="matTooltip" matTooltip="{{tier}}"><strong>Tier:</strong> {{tier}}</li>
+			<li class="locationCl" #tooltip="matTooltip"
+			matTooltip="{{Inc_location}}"><strong>Location:</strong>
+      {{(Inc_location.length > 20 )? (Inc_location | slice:0:30)+'..':(Inc_location)}}
+
+    </li>
+			</ul>
+			<ul class="topinsidentData2 topinsidentData2_3">
+			<li class="casualtyCl"><strong>Casualty:</strong> {{tot_casualty}}</li>
+			<li class="timeCl"><strong>Time Elapsed:</strong> {{hours}}h
+				<i class="fa fa-circle text-danger ml-1 Blink"></i>
+      			</li>
+			</ul>
+	     	</div>
+		</div>
+
+		<ul class="topMenuRight">
+		<li class="userDrop dropdown">
+			<a  class="nav-link"  [matBadge]="_TOTAL_LENGTH_NOTIFICATION" matBadgeOverlap="false" matBadgeSize="medium" [matBadgeHidden]="_TOTAL_LENGTH_NOTIFICATION == 0" id="drop1" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></a>
+			<div class="dropdown-menu customDropdown">
+        <ng-container *ngIf="_notification.length > 1">
+          <div class="notifications-item" *ngFor="let notify of _notification;let i=index">
+            <ng-container *ngIf="i < 4">
+              <!-- <a  (click)="gotoNotifications(notify.id,notify.activity)">{{notify.narration}}</a> -->
+              <img src="assets/images/no-user.png" alt="img">
+              <div class="text" (click)="gotoNotifications(notify.id,notify.activity)">
+               <p>{{notify.narration}}</p>
+             </div>
+            </ng-container>
+            <hr *ngIf="i < 4"/>
+				</div>
+        </ng-container>
+        <ng-container  *ngIf="_notification.length  == 1">
+              <div class="user">
+                <h3>No Notfications Available</h3>
+              </div>
+        </ng-container>
+         <button class="btn custom_btn btn-block btn-sm" *ngIf="_notification.length > 4" (click)="gotoNotifications(0,'D')">Show All</button>
+			</div>
+		</li>
+		<li class="active dropdown">
+			<a  id="activId"  data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+				<span *ngIf="user_status=='L'"><i class="fa fa-circle activeStatus" aria-hidden="true"></i>Logged In</span>
+				<span *ngIf="user_status=='M'"><i class="fa fa-meetup activeStatus" aria-hidden="true"></i> In a meeting</span>
+				<span *ngIf="user_status=='C'"><i class="fa fa-phone activeStatus" aria-hidden="true"></i> On a call</span>
+				<span *ngIf="user_status=='S'"><i class="fa fa-circle activeStatus" aria-hidden="true"></i> Stand down</span>
+
+
+				<i class="fa fa-caret-down activeDropCUs" aria-hidden="true"></i></a>
+
+			<div class="dropdown-menu dropdown-menu-end dropdownActive" aria-labelledby="navbarDropdown">
+				<a class="dropdown-item subLink" style="cursor: pointer;" [ngClass]="user_status=='M' ? 'customBackground' : ''" (click)="select_mode('M')"><i class="fa fa-meetup" [ngStyle]="{'color' : user_status=='M' ? '#fff' : 'black'}" aria-hidden="true"></i>In a meeting</a>
+				<a class="dropdown-item subLink" style="cursor: pointer;" [ngClass]="user_status=='C' ? 'customBackground' : ''" (click)="select_mode('C')"><i class="fa fa-phone" [ngStyle]="{'color' : user_status=='C' ? '#fff' : 'black'}" aria-hidden="true"></i>On a call</a>
+				<a class="dropdown-item subLink" style="cursor: pointer;" [ngClass]="user_status=='L' ? 'customBackground' : ''" (click)="select_mode('L')"><i class="fa  fa-circle" [ngStyle]="{'color' : user_status=='L' ? '#fff' : 'black'}" aria-hidden="true"></i>Logged In</a>
+				<a class="dropdown-item subLink" style="cursor: pointer;" [ngClass]="user_status=='S' ? 'customBackground' : ''" (click)="select_mode('S')"><i class="fa fa-circle" [ngStyle]="{'color' : user_status=='S' ? '#fff' : 'black'}" aria-hidden="true"></i>Stand down</a>
+			  </div>
+
+			</li>
+
+
+		<li class="userDrop dropdown">
+      <a  class="nav-link" id="drop1" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
+     ><img src="{{img_src}}" alt="profile" class="thumImg">
+          </a>
+		<div class="dropdown-menu logoutPopup">
+			<a  class="profileEditPopup" data-toggle="modal" data-target="#Employee_profile" ><i class="fa fa-pencil-square" aria-hidden="true"></i> Edit</a>
+
+			<div class="thumLogout"><img src="{{img_src}}" alt="profile" class="thumImg"></div>
+			<div class="user">
+			{{name}}
+			  <p *ngIf="user_type=='I'" class="text-success	">Incident Commander</p>
+			  <p *ngIf="user_type=='U'">User</p>
+
+			</div>
+			<a (click)="logout()" class="signOut">Sign Out</a>
+
+			</div>
+
+			</li>
+
+		</ul>
+
+	</div>
+
+
+
+
+</nav>
+
+
+
+<!-- Profile Modal -->
+<div class="modal fade" id="Employee_profile">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h4 class="modal-title">Profile</h4>
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+		<div class="container">
+			<div class="row">
+			  <div class="col-12 ">
+        <mat-tab-group mat-align-tabs="start" dynamicHeight>
+          <mat-tab label="Profile Details">
+            <div class="example-large-box mat-elevation-z8">
+            <form #logForm="ngForm" (ngSubmit)="Submit(logForm.value)">
+              <div class="row">
+                <div class="col-6">
+                   <input type="hidden" name="user" #user="ngModel" ngModel>
+                  <label>Employee Id</label>
+                   <input type="text" name="emp_id" #emp_id="ngModel" ngModel   class="form-control" readonly>
+                </div>
+                <div class="col-6">
+                  <label>Email</label>
+                   <input type="email" name="email"  [(ngModel)]="email"  class="form-control" readonly>
+                </div>
+
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <label>Name</label>
+                   <input type="text" name="emp_name" id="Name" #emp_name="ngModel" ngModel required class="form-control">
+                   <div *ngIf="emp_name.errors?.required && (emp_name.touched || emp_name.dirty)" class="text-danger">
+                    <small>*Please provide Name</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                  <label>Department</label>
+                     <select class="form-control" required class="form-control" name="depart_id" id="department_id" #depart_id="ngModel" ngModel>
+                     <option value="">Select</option>
+                     <option *ngFor="let dep of get_department" value="{{dep.id}}">{{dep.department_name}}</option>
+
+                   </select>
+
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <label>Contact No.(Personal)</label>
+                   <input type="text" name="per_cnct_no" id="Per_cnct_no" #per_cnct_no="ngModel" required ngModel class="form-control">
+                   <div *ngIf="per_cnct_no.errors?.required && (per_cnct_no.touched || per_cnct_no.dirty)" class="text-danger">
+                    <small>*Please provide personal contact no</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                  <label>Contact No.(ER)</label>
+                   <input type="text" name="er_cnct_no" id="Er_cnct_no" #er_cnct_no="ngModel" ngModel  class="form-control">
+
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-6">
+                  <label>Position</label>
+                  <select class="form-control" name="pos_id" id="Pos_id" #pos_id="ngModel" ngModel>
+                    <option value="">Select</option>
+                    <option *ngFor="let pos of get_position"  value="{{pos.id}}">{{pos.position}}</option>
+
+                  </select>
+                </div>
+
+              </div>
+              <div class="btnSubmitSec mt-4 mb-3 float-right">
+                <input type="submit" value="Save" class="btn btn-info" [disabled]="logForm.invalid">
+
+              </div>
+            </form>
+            </div>
+          </mat-tab>
+          <mat-tab label="Profile picture">
+            <div class="example-large-box mat-elevation-z8">
+            <div class="row">
+              <div class="col-12 ">
+                <div class="thumLogout text-center">
+
+                  <img src="{{this.image}}" alt="profile" class="thumImg"  alt="Avatar"  class="avatar">
+
+                </div>
+              </div>
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-12 text-center">
+                  <label>&nbsp;</label>
+                   <input type="file" class="form-control" id="change_file" hidden (change)="change_profile($event)">
+                    <a (click)="Edit_profile()" class="customIcon" ><i class="fa fa-edit" ></i> <span class="customTextUpload">Update</span></a> |
+                    <a class="customIcon" (click)="remove_profile()" ><i class="fa fa-trash-o" ></i> <span class="customTextRemove">Remove</span> </a>
+              </div>
+            </div>
+            <div class="btnSubmitSec mt-4 mb-3 float-right">
+              <input type="submit" class="btn btn-info" (click)="saveChanges()" value="Upload"/>
+            </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Change password">
+            <div class="example-large-box mat-elevation-z8">
+            <form #LogForm="ngForm" (ngSubmit)="Submit_password(LogForm.value)">
+              <div class="row mb-2">
+
+                <div class="col-6">
+                           <input type="hidden" name="user" [(ngModel)]="email" class="form-control">
+                           <input type="hidden" name="emp_id" [(ngModel)]="Emp_id" class="form-control">
+
+                  <label>Old Password</label>
+                  <input  [type]="_o_pass ? 'password' : 'text'"  class="form-control" name="old_pass" id="old_pass" #old_pass="ngModel" ngModel required>
+                <!-- <i class="toggle-password fa fa-eye-slash" style="cursor:pointer" (click)="show_pass('O')"></i> -->
+                <mat-icon (click)="show_pass('O')" class="toggle-password">remove_red_eye</mat-icon>
+
+                <div *ngIf="old_pass.errors?.required && (old_pass.touched || old_pass.dirty)" class="text-danger">
+                    <small>*Please provide old password</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                  <label>New Password</label>
+                  <input  [type]="_n_pass ? 'password' : 'text'" class="form-control" name="pass" id="pass" #pass="ngModel" ngModel required>
+                <!-- <i class="toggle-newpassword fa fa-eye-slash" style="cursor:pointer" (click)="show_pass('N')"></i> -->
+                <mat-icon (click)="show_pass('N')" class="toggle-password">remove_red_eye</mat-icon>
+
+                  <div *ngIf="pass.errors?.required && (pass.touched || pass.dirty)" class="text-danger">
+                    <small>*Please provide new password</small>
+                    </div>
+                </div>
+
+                <div class="col-6 mt-3">
+                  <label>Confirm Password</label>
+                  <input   [type]="_c_pass ? 'password' : 'text'" class="form-control" name="conf_pass" id="conf_pass" #conf_pass="ngModel" ngModel required>
+                  <mat-icon (click)="show_pass('C')" class="toggle-password">remove_red_eye</mat-icon>
+
+                <!-- <i class="toggle-confpassword fa fa-eye-slash" style="cursor:pointer" (click)="show_pass('C')"></i> -->
+
+                  <div *ngIf="conf_pass.errors?.required && (conf_pass.touched || conf_pass.dirty)" class="text-danger">
+                    <small>*Please provide confirm password</small>
+                    </div>
+                </div>
+              </div>
+              <div class="btnSubmitSec mt-4 mb-3 float-right">
+                <input type="submit" value="Save" class="btn btn-info"  [disabled]="LogForm.invalid">
+
+              </div>
+             </form>
+             </div>
+          </mat-tab>
+        </mat-tab-group>
+			  </div>
+			</div>
+		</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+
+

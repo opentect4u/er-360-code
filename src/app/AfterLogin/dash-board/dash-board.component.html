@@ -1,0 +1,476 @@
+<app-header [headername]="headername" [icon]="icon" (IncStatus)="getIncDetails($event)"></app-header>
+<div class="page-body-wrapper">
+	<app-sidebar class="sidebarMain"></app-sidebar>
+
+	<div class="main-panel">
+		<div class="content-wrapper">
+			<div class="row" *ngIf="this.active_flag!=0">
+				<div class="rowCustomFlex">
+
+						<div class="whiteBox3 whiteBox2_floatLeft">
+							<ul class="watherRepoort">
+								<li #tooltip="matTooltip"
+                [matTooltipDisabled]="inc_visibility.length > 4 ? false : true"
+                matTooltip="{{inc_visibility}}">
+                  <span>
+                  {{inc_visibility =='' ? 'N/A' :(inc_visibility.length > 4  ) ? (inc_visibility | slice:0:3)+'..' : (inc_visibility)}}
+                  </span>
+									<h3>Visibility</h3>
+								</li>
+							</ul>
+						</div>
+						<div class="whiteBox3 whiteBox2_floatLeft">
+							<ul class="watherRepoort">
+								<li
+                #tooltip="matTooltip"
+                [matTooltipDisabled]="inc_sea_state.length > 4 ? false : true"
+                matTooltip="{{inc_sea_state}}"
+                ><span>{{inc_sea_state=='' ? 'N/A' : (inc_sea_state.length > 4  ) ? (inc_sea_state | slice:0:3)+'..' : (inc_sea_state)}}</span>
+									<h3>Sea State</h3>
+								</li>
+							</ul>
+						</div>
+						<div class="whiteBox3 whiteBox2_floatLeft">
+							<ul class="watherRepoort">
+								<li><span>{{temp=='' ? 'N/A' : temp +'°'+ _temp_unit}}</span>
+									<h3>Temperature</h3>
+								</li>
+							</ul>
+						</div>
+						<div class="whiteBox3 whiteBox2_floatLeft">
+							<ul class="watherRepoort">
+								<li>
+									<span>{{wind_speed!='' ? wind_speed +'km/h' : 'N/A'}}</span>
+									<h3>Wind Speed</h3>
+								</li>
+							</ul>
+						</div>
+
+
+
+				</div>
+
+				<div class="rowCustomFlex marginBotPosition">
+
+					<div class="col-6 mb-6">
+						<div class="whiteBox">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Live Log </h2>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+
+                  <div class="verticalScroll scrollTableData" >
+                    <ul class="chat-messages-show-list" id="message-list">
+                    </ul>
+                  </div>
+
+
+							</div>
+
+						</div>
+					</div>
+					<div class="col-6 mb-6">
+
+
+						<div class="whiteBox whiteBoxHeightNon whiteBox_marg_bot">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Vessel Status</h2>
+								<button class="btn custom_btn pull-right"
+									(click)="go_to_boards('vessel_create')">Details</button>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+								<div class="verticalScroll scrollTableData scrollTableDataHeightNon">
+									<ngx-spinner bdColor="" name="vessel_stats" size="default" color="black"
+										type="ball-clip-rotate" [fullScreen]="false">
+										<p style="color: rgb(0, 0, 0)" class="mt-5"> Please Wait.... </p>
+									</ngx-spinner>
+									<table *ngIf="get_vessel_status!=''">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Name (Type)</th>
+												<th>FROM - TO</th>
+												<th>ETD - ETA</th>
+											</tr>
+										</thead>
+										<tbody *ngFor="let vessels of get_vessel_status;let i=index">
+
+											<tr [ngClass]="i == 0 ? 'my_class1' : ''" #tooltip="matTooltip"
+												[matTooltip]="getTooltipText(vessels.vessel_name,vessels.vessel_type,vessels.form_at,vessels.to_at,vessels.etd,vessels.eta,'V')">
+												<td>
+													<div id="container" *ngIf='i==0'>
+														<div class="dotLatest"></div>
+														<div class="pulseLatest"></div>
+													</div>
+												</td>
+												<td>
+													<!-- <i class="fa fa-circle text-danger Blink pull-left" *ngIf='i==0'></i> -->
+													<p>{{vessels.vessel_name}}&nbsp;({{vessels.vessel_type}})</p>
+												</td>
+												<td>
+													<p>{{vessels.form_at}}&nbsp;&nbsp;-&nbsp;&nbsp;{{vessels.to_at}}</p>
+												</td>
+												<td>
+													<p>{{vessels.etd}} &nbsp;&nbsp;-&nbsp;&nbsp;{{vessels.eta}}</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+                  <ng-container *ngIf="get_vessel_status==''">
+                          <!-- <h3 class="text-center">No Incident Status Available</h3> -->
+							        	<h5  class="NoBoardStatusAvailable">No Vessel Status Available</h5>
+
+                  </ng-container>
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="whiteBox whiteBoxHeightNon">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Helicopter Status</h2>
+								<button class="btn custom_btn pull-right"
+									(click)="go_to_boards('hel_create')">Details</button>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+								<div class="verticalScroll scrollTableData scrollTableDataHeightNon">
+									<ngx-spinner bdColor="" name="heli_stats" size="default" color="black"
+										type="ball-clip-rotate" [fullScreen]="false">
+										<p style="color: rgb(0, 0, 0)" class="mt-5"> Please Wait.... </p>
+									</ngx-spinner>
+									<table *ngIf="get_helicopter_status!=''">
+										<tr>
+											<th></th>
+											<th>Call Sign(Type)</th>
+											<th>FROM - TO</th>
+											<th>ETD - ETA</th>
+										</tr>
+										<tr *ngFor="let helicopter of get_helicopter_status;let i=index"
+											[ngClass]="i == 0 ? 'my_class1' : ''" #tooltip="matTooltip"
+											[matTooltip]="getTooltipText(helicopter.call_sign,helicopter.heli_type,helicopter.form_at,helicopter.to_at,helicopter.etd,helicopter.eta,'H')">
+
+											<td>
+												<div id="container" *ngIf='i==0'>
+													<div class="dotLatest"></div>
+													<div class="pulseLatest"></div>
+												</div>
+											</td>
+											<td class="text-center">
+
+												<p>{{helicopter.call_sign}}&nbsp;&nbsp;({{helicopter.heli_type}})</p>
+											</td>
+											<td>
+												<p>{{helicopter.form_at}}&nbsp;&nbsp;-&nbsp;&nbsp;{{helicopter.to_at}}
+												</p>
+											</td>
+											<td>
+												<p>{{helicopter.etd}}&nbsp;&nbsp;-&nbsp;&nbsp;{{helicopter.eta}}</p>
+											</td>
+										</tr>
+
+									</table>
+                  <ng-container *ngIf="get_vessel_status==''">
+							        	<h5  class="NoBoardStatusAvailable">No Helicopter Status Available</h5>
+                  </ng-container>
+								</div>
+							</div>
+
+						</div>
+
+
+					</div>
+				</div>
+
+				<div class="rowCustomFlex">
+					<div class="col-3 mb-5">
+						<div class="whiteBox">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Pob Status</h2>
+								<button class="btn custom_btn pull-right" (click)="go_to_boards('pob')">Details</button>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+								<h3 class="customLine"></h3>
+
+								<table *ngIf="get_prob_status.length > 0">
+									<tr>
+										<th>Category</th>
+										<th>Value</th>
+									</tr>
+									<tr *ngFor="let prob_status of get_prob_status;let i=index"
+										[ngClass]="i == 0 ? 'my_class1' : ''">
+										<td>
+											<p>{{prob_status.prob_cat}}</p>
+										</td>
+										<td>
+											<p>{{prob_status.value}}</p>
+										</td>
+									</tr>
+								</table>
+								<h5 *ngIf="get_prob_status.length == 0" class="NoBoardStatusAvailable">No Pob Status available</h5>
+							</div>
+						</div>
+					</div>
+					<div class="col-3 mb-5">
+						<div class="whiteBox">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Casualty Status</h2>
+								<button class="btn custom_btn pull-right"
+									(click)="go_to_boards('casual')">Details</button>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+								<h3 class="customLine"></h3>
+								<!-- <div class="customScroll">
+									<table *ngIf="get_casualty_status!=''">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Full Name</th>
+												<th>Employer</th>
+												<th>Condition</th>
+												<th>Time</th>
+											</tr>
+										</thead>
+										<tbody *ngFor="let casualty of get_casualty_status;let i=index">
+											<tr [ngClass]="i == 0 ? 'my_class1' : ''"
+												[matTooltip]="getTooltipText(casualty.full_name,casualty.employer,casualty.emp_condition,casualty.time,'','','C')">
+												<td>
+													<div id="container" *ngIf='i==0'>
+														<div class="dot"></div>
+														<div class="pulse"></div>
+													</div>
+												</td>
+												<td>
+													<p>{{casualty.full_name}}</p>
+												</td>
+												<td>
+													<p>{{casualty.employer}}</p>
+												</td>
+												<td>
+													<p>{{casualty.emp_condition}}</p>
+												</td>
+												<td>
+													<p>{{casualty.time}}</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div> -->
+                <ng-container *ngIf="get_casualty_status.length > 0">
+
+                  <ul class="boardStatus" *ngFor = "let casualty of get_casualty_status">
+                    <li
+                      matTooltip="{{casualty?.full_name}}">
+                      <strong class="customLabel">Name :</strong> {{casualty?.full_name}}
+
+                    </li>
+                    <li
+                      matTooltip="{{casualty?.employer}}">
+                      <strong class="customLabel">Employer :</strong>
+                      {{casualty?.employer}}
+                    </li>
+                    <li
+                      matTooltip="{{casualty?.emp_condition}}">
+                      <strong class="customLabel">Condition :</strong>
+                      {{casualty?.emp_condition}}
+                    </li>
+                    <hr />
+                    <!-- <li *ngIf="get_casualty_status.length > 1"
+                      matTooltip="{{get_casualty_status[1]?.full_name}}">
+                      <strong class="customLabel">Name :</strong>
+                      {{get_casualty_status[1]?.full_name}}
+                    </li>
+                    <li *ngIf="get_casualty_status.length > 1"
+                      matTooltip="{{get_casualty_status[1]?.employer}}">
+                      <strong class="customLabel">Employer :</strong>
+                      {{get_casualty_status[1]?.employer}}
+                    </li>
+                    <li *ngIf="get_casualty_status.length > 1"
+                      matTooltip="{{get_casualty_status[1]?.emp_condition}}">
+                      <strong class="customLabel">Condition :</strong>
+                      {{get_casualty_status[1]?.emp_condition}}
+                    </li> -->
+                  </ul>
+
+                </ng-container>
+
+								<ul class="boardStatus" *ngIf="get_casualty_status.length == 0">
+									<li>
+										<h5 class="NoBoardStatusAvailable">No Casualty Status Available</h5>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-3 mb-5">
+						<div class="whiteBox">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Evacuation Status</h2>
+								<button class="btn custom_btn pull-right"
+									(click)="go_to_boards('evacuation')">Details</button>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+								<ngx-spinner bdColor="" name="evacuations" size="default" color="black"
+									type="ball-clip-rotate" [fullScreen]="false">
+									<p style="color: rgb(0, 0, 0)" class="mt-5"> Please Wait.... </p>
+								</ngx-spinner>
+								<!-- <div class="customScroll">
+									<table *ngIf="get_evacuation_status!=''">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Mode Of Transport</th>
+												<th>Time</th>
+												<th>Pob Remaining</th>
+											</tr>
+										</thead>
+										<tbody *ngFor="let evacuation of get_evacuation_status;let i=index">
+											<tr [ngClass]="i == 0 ? 'my_class1' : ''"
+												[matTooltip]="getTooltipText(evacuation.mode_of_transport,evacuation.time,evacuation.pob_remaining,'','','','E')">
+												<td>
+													<div id="container" *ngIf='i==0'>
+														<div class="dot"></div>
+														<div class="pulse"></div>
+													</div>
+												</td>
+												<td>
+													<p>{{evacuation.mode_of_transport}}</p>
+												</td>
+												<td>
+													<p>{{evacuation.time}}</p>
+												</td>
+												<td>
+													<p>{{evacuation.pob_remaining}}</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div> -->
+								<h3 class="customLine"></h3>
+                <ng-container *ngIf="get_evacuation_status.length > 0">
+
+								<ul class="boardStatus" *ngFor="let evacuationStatus of get_evacuation_status">
+									<li
+										matTooltip="{{evacuationStatus?.mode_of_transport}}">
+										<strong class="customLabel">Transportation Mode :</strong>
+										{{evacuationStatus?.mode_of_transport}}
+									</li>
+									<li>
+										<strong class="customLabel">Time :</strong> {{evacuationStatus?.time}}
+									</li>
+									<li >
+										<strong class="customLabel">Pob Remaining :</strong>
+										{{evacuationStatus?.pob_remaining}}
+									</li>
+									<hr />
+									<!-- <li *ngIf="get_evacuation_status.length > 1"
+										matTooltip="{{get_evacuation_status[1]?.mode_of_transport}}">
+										<strong class="customLabel">Transportation Mode :</strong>
+										{{get_evacuation_status[1]?.mode_of_transport}}
+									</li>
+									<li *ngIf="get_evacuation_status.length > 1">
+										<strong class="customLabel">Time :</strong> {{get_evacuation_status[1]?.time}}
+									</li>
+									<li *ngIf="get_evacuation_status.length > 1">
+										<strong class="customLabel">Pob Remaining :</strong>
+										{{get_evacuation_status[1]?.pob_remaining}}
+									</li> -->
+								</ul>
+              </ng-container>
+								<ul class="boardStatus" *ngIf="get_evacuation_status.length == 0">
+									<li>
+										<h5 class="NoBoardStatusAvailable">No Evacuation Status Available</h5>
+									</li>
+								</ul>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="col-3 mb-5">
+						<div class="whiteBox">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Events Logs</h2>
+								<button class="btn custom_btn pull-right"
+									(click)="go_to_boards('events')">Details</button>
+								<br clear="all">
+							</div>
+							<div class="card_bodyCustom scroll">
+								<ngx-spinner bdColor="" name="events" size="default" color="black"
+									type="ball-clip-rotate" [fullScreen]="false">
+									<p style="color: rgb(0, 0, 0)" class="mt-5"> Please Wait.... </p>
+								</ngx-spinner>
+								<!-- <div class="customScroll">
+									<table *ngIf="get_events_status!=''">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Resource Assigned</th>
+												<th>Time</th>
+												<th>Situation Status</th>
+											</tr>
+										</thead>
+										<tbody *ngFor="let events of get_events_status;let i=index">
+											<tr [ngClass]="i == 0 ? 'my_class1' : ''"
+												[matTooltip]="getTooltipText(events.resource_assigned,events.time,events.situation_status,'','','','EV')">
+												<td>
+													<div id="container" *ngIf='i==0'>
+														<div class="dot"></div>
+														<div class="pulse"></div>
+													</div>
+												</td>
+												<td>
+													<p>{{events.resource_assigned}}</p>
+												</td>
+												<td>
+													<p>{{events.time}}</p>
+												</td>
+												<td>
+													<p>{{events.situation_status}}</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div> -->
+								<h3 class="customLine"></h3>
+                <ng-container *ngIf="get_events_status.length > 0">
+                  <ul class="boardStatus" *ngFor="let event of get_events_status">
+                    <li
+                      matTooltip="{{event?.resource_assigned}}">
+                      <strong class="customLabel">Resource Assigned :</strong>
+                      {{event?.resource_assigned}}
+                    </li>
+                    <li>
+                      <strong class="customLabel">Time :</strong> {{event?.time}}
+                    </li>
+                    <hr />
+                  </ul>
+
+                </ng-container>
+
+								<ul class="boardStatus" *ngIf="get_events_status.length == 0">
+									<li>
+										<h5 class="NoBoardStatusAvailable">No Events Log Available</h5>
+									</li>
+								</ul>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card" *ngIf="this.active_flag == '0'">
+				<div class="card-body"></div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
