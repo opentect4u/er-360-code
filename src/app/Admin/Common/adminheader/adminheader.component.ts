@@ -53,7 +53,7 @@ export class AdminheaderComponent implements OnInit {
     this.emergencyservice.emit('notification','');
     this.emergencyservice.listen('notification').subscribe(data=>{
       //data)
-      console.log(data);
+      // console.log(data);
 
       this.notifications=data;
       this._TOTAL_LENGTH_NOTIFICATION = this.notifications[this.notifications.length-1].total;
