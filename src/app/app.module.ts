@@ -40,7 +40,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 ///END//////
 import { EditIncidentComponent } from './AfterLogin/Incident/edit-incident/edit-incident.component';
 import { LiveLogComponent } from './AfterLogin/live-log/live-log.component';
-import { BoardComponent } from './AfterLogin/board/board.component';
+// import { BoardComponent } from './AfterLogin/board/board.component';
+
 import { RepositoryComponent } from './AfterLogin/repository/repository.component';
 import { FormsChecklistComponent } from './AfterLogin/forms-checklist/forms-checklist.component';
 import { AudioVideoConferenceComponent } from './AfterLogin/audio-video-conference/audio-video-conference.component';
@@ -73,10 +74,7 @@ import { AddAdminTeamComponent } from './Admin/AfterLogin/Admin-team/add-admin-t
 import { EditAdminTeamComponent } from './Admin/AfterLogin/Admin-team/edit-admin-team/edit-admin-team.component';
 import { AssignTeamComponent } from './Admin/AfterLogin/Team/assign-team/assign-team.component';
 import { AddTeamMemberComponent } from './Admin/AfterLogin/Team/add-team-member/add-team-member.component';
-import { EditAdminAssignTeamComponent } from './Admin/AfterLogin/Team/edit-admin-assign-team/edit-admin-assign-team.component';
-import { TeamStatusComponent } from './Admin/AfterLogin/Team/TeamStatus/team-status/team-status.component';
 import { AddTeamStatusComponent } from './Admin/AfterLogin/Team/TeamStatus/add-team-status/add-team-status.component';
-import { EditTeamStatusComponent } from './Admin/AfterLogin/Team/TeamStatus/edit-team-status/edit-team-status.component';
 import { UserStatusComponent } from './Admin/AfterLogin/User-Status/user-status/user-status.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 //For Date Pipe////
@@ -136,12 +134,19 @@ import { ForgotPasswordComponent } from './BeforeLogin/login-lee/ForgetPassword/
 import { UserInfoComponent } from './AfterLogin/user-info/user-info.component';
 import { DialogalertComponent } from './CommonDialogAlert/dialogalert/dialogalert.component';
 import { NotificationComponent } from './CommonDialogAlert/Notification/Notification.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 // End////////
 //Ngx Pagination//
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HandoverComponent } from './AfterLogin/handover/handover.component';
 import { GlobalErrorHandlingInterceptor } from './Interceptor/global-error-handling.interceptor';
+import { BoardComponent } from './AfterLogin/board/board.component';
+import { HandOverDashboardComponent } from './AfterLogin/hand-over-dashboard/hand-over-dashboard.component';
+import { LessonDashboardComponent } from './AfterLogin/Lesson_Learnt/lesson-dashboard/lesson-dashboard.component';
+import { AddLessonLearntComponent } from './AfterLogin/Lesson_Learnt/add-lesson-learnt/add-lesson-learnt.component';
+import { PageNotFoundComponent } from './Error_pages/page-not-found/page-not-found.component';
+import { MediaComponent } from './AfterLogin/Media_Module/media/media.component';
+import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/modify-media.component';
 //End//
 @NgModule({
   declarations: [
@@ -190,10 +195,7 @@ import { GlobalErrorHandlingInterceptor } from './Interceptor/global-error-handl
     EditAdminTeamComponent,
     AssignTeamComponent,
     AddTeamMemberComponent,
-    EditAdminAssignTeamComponent,
-    TeamStatusComponent,
     AddTeamStatusComponent,
-    EditTeamStatusComponent,
     UserStatusComponent,
     AdminLoginComponent,
     ForgetPasswordForAdminComponent,
@@ -220,10 +222,17 @@ import { GlobalErrorHandlingInterceptor } from './Interceptor/global-error-handl
     ForgotPasswordComponent,
     UserInfoComponent,
     DialogalertComponent,
-    HandoverComponent
+    HandoverComponent,
+    HandOverDashboardComponent,
+    LessonDashboardComponent,
+    AddLessonLearntComponent,
+    PageNotFoundComponent,
+    MediaComponent,
+    ModifyMediaComponent
     // SearchFilterPipe
   ],
   imports: [
+    MatExpansionModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     MatToolbarModule,
