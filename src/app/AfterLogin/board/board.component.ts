@@ -16,7 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { from } from 'rxjs';
-import { map, take, takeWhile } from 'rxjs/operators';
+import { map, take} from 'rxjs/operators';
 import { DialogalertComponent } from 'src/app/CommonDialogAlert/dialogalert/dialogalert.component';
 import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.service';
 import { global_url_test } from 'src/app/url';
@@ -746,7 +746,7 @@ export class BoardComponent implements OnInit, OnDestroy {
             to_at: this.get_incident_details_after_save[i].to_at,
             eta: this.get_incident_details_after_save[i].eta,
             remarks: this.get_incident_details_after_save[i].remarks,
-            time_to_location:moment.utc(moment(this.get_incident_details_after_save[i].etd,"HH:mm").diff(moment(this.get_incident_details_after_save[i].eta,"HH:mm"))).format("HH:mm")
+            time_to_location:moment.utc(moment(this.get_incident_details_after_save[i].eta,"HH:mm").diff(moment(this.get_incident_details_after_save[i].etd,"HH:mm"))).format("HH:mm")
           };
           this.vesselArray.push(this.vesselDynamic);
           console.log(this.vesselArray);
@@ -1177,6 +1177,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       .global_service('0', '/inc_board', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
+        console.log(data);
+
         this.get_in_status = data;
         this.get_incident_details_after_save = data;
         from(data)
@@ -1193,7 +1195,6 @@ export class BoardComponent implements OnInit, OnDestroy {
               this.wind_speed = res.wind_speed;
               this.wind_speed = res.wind_speed + res.wind_speed_unit; //<== This is to need ti exchange with above
               this.temp_unit = res.temp_unit;
-
             }
           });
       });
@@ -1418,8 +1419,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.get_incident_details = e;
     this.Inc_name = e.inc_name;
     this.Inc_id = e.inc_no;
-    console.log(this.Inc_id);
-
     this.ngOnDestroy();
     this.SetIncStatus(localStorage.getItem('Inc_id'));
     this.SetVesselStatus(localStorage.getItem('Inc_id'));
@@ -1431,11 +1430,25 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.alive = true;
   }
   changeTime(event:any,_etd:any,Index:any){
-    // if(this.id_create == 'vessel_create'){
-      this.vesselArray[Index].time_to_location =event !=='' && _etd !='' ?  moment.utc(moment(_etd,"HH:mm").diff(moment(event,"HH:mm"))).format("HH:mm") : '';
-    // }
-    // else{
-    //   this.vesselArray[Index].hours_to_location =event !=='' && _etd !='' ?  moment.utc(moment(_etd,"HH:mm").diff(moment(event,"HH:mm"))).format("HH:mm") : '';
-    // }
+      this.vesselArray[Index].time_to_location =event !=='' && _etd !='' ?  moment.utc(moment(event,"HH:mm").diff(moment(_etd,"HH:mm"))).format("HH:mm") : '';
+  }
+  openModalDialog(){
+    const disalogConfig = new MatDialogConfig();
+    disalogConfig.disableClose = false;
+    disalogConfig.autoFocus = true;
+    disalogConfig.width = '35%';
+    disalogConfig.data = {
+      summary_incident: this.get_in_status[0].summary,
+      api_name: '',
+      name: 'summary_inc',
+      id: 0,
+    };
+    const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
+    dialogref.afterClosed().subscribe((dt) => {
+         if(dt){
+          console.log('sss');
+
+         }
+    })
   }
 }
