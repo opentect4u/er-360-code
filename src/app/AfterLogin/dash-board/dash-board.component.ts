@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { from, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { DialogalertComponent } from 'src/app/CommonDialogAlert/dialogalert/dialogalert.component';
 import { IncDetails } from 'src/app/Model/IncDetails';
 import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.service';
 declare var $:any;
@@ -56,7 +58,15 @@ export class DashBoardComponent implements OnInit {
   li_select: any;
   //End //
 
-  constructor(private datePipe:DatePipe,private emergencyservice:VirtualEmergencyService,private router:Router,private spinner:NgxSpinnerService,private toastr:ToastrManager) {}
+  constructor(
+    public dialog: MatDialog,
+    private emergencyservice:VirtualEmergencyService,
+    private router:Router,
+    private spinner:NgxSpinnerService) {
+      if(Number(localStorage.getItem('_SHOW_POPUP')) == 0){
+           this.openDialog();
+      }
+    }
   ngOnInit(): void {this.emergencyservice.joinRoom({user:localStorage.getItem('Emp_name'),room:this.global_inc,emp_code:localStorage.getItem('Employee_id')});}
   go_to_boards(v:any){localStorage.setItem('id_create',v); this.router.navigate(['/Board']);}
 
@@ -81,9 +91,6 @@ getIncStatus(_id:any){
 
   this.emergencyservice.global_service('0','/inc_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
     //res);
-
-      console.log(res);
-
       this.inc_visibility = res.length > 0 ? res[0].visibility + res[0].visibility_unit : '';
       this.inc_sea_state=res.length > 0 ? res[0].sea_state : "";
       // this.deg=res.length > 0 ? res[0].temp.charAt(res[0].temp.length-1): '';
@@ -331,5 +338,22 @@ getIncDetails(e:IncDetails){
       this.getChat(e.id);
 }
 
+openDialog(){
+  const disalogConfig = new MatDialogConfig();
+    disalogConfig.disableClose = true;
+    disalogConfig.autoFocus = false;
+    disalogConfig.width = '50%';
+    disalogConfig.data = {
+      name:'SP',
+      id:0,
+    };
+    const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
+    dialogref.afterClosed().subscribe(dt =>{
+      // console.log(dt);
+      localStorage.setItem('_SHOW_POPUP','1')
+      console.log(localStorage.getItem('_SHOW_POPUP'));
+
+    })
+}
 
 }

@@ -148,6 +148,7 @@ import { AddLessonLearntComponent } from './AfterLogin/Lesson_Learnt/add-lesson-
 import { PageNotFoundComponent } from './Error_pages/page-not-found/page-not-found.component';
 import { MediaComponent } from './AfterLogin/Media_Module/media/media.component';
 import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/modify-media.component';
+import { OilspillComponent } from './AfterLogin/oilspill/oilspill.component';
 //End//
 @NgModule({
   declarations: [
@@ -229,7 +230,8 @@ import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/mod
     AddLessonLearntComponent,
     PageNotFoundComponent,
     MediaComponent,
-    ModifyMediaComponent
+    ModifyMediaComponent,
+    OilspillComponent
     // SearchFilterPipe
   ],
   imports: [

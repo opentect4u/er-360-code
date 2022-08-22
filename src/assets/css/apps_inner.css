@@ -965,7 +965,7 @@ b{font-size: 14px;color:black;}
 .customLine{border-bottom: 2px solid #464ed0;}
 
 /* For material dialog alert */
-.mat-dialog-container {background: #424242!important;color: rgb(255 255 255 / 87%)!important;padding:35px 24px!important;}
+/* .mat-dialog-container {background: #424242!important;color: rgb(255 255 255 / 87%)!important;padding:35px 24px!important;} */
 .mat-toolbar {background: #424242!important;color: rgb(255 255 255 / 87%)!important;}
 .mat-dialog-content {font-size: 16px;font-weight: 400;text-align: center; margin: 9px 0 9px 0!important;}
 .mat-dialog-actions {justify-content: flex-end;}

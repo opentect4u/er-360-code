@@ -24,6 +24,7 @@ export class LoginLEEComponent implements OnInit {
        if(this.check_response.suc==1){
         localStorage.setItem('Email',this.check_response.msg[0].email);
         localStorage.setItem('Employee_id',this.check_response.msg[0].employee_id);
+        localStorage.setItem('_SHOW_POPUP','0');
         if(this.check_response.msg[0].first_login > 0){
         localStorage.setItem('Emp_name',this.check_response.msg[0].emp_name);
         localStorage.setItem('Emp_status',this.check_response.msg[0].emp_status);
@@ -36,7 +37,7 @@ export class LoginLEEComponent implements OnInit {
         this.router.navigate(['/dashboard']);
         }
         else{
-        this.spinner.hide();
+          this.spinner.hide();
           this.router.navigate(['/firstloggedin']);
         }
       }

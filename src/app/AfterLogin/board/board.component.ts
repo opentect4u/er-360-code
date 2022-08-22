@@ -65,7 +65,24 @@ export class vesselGrid {
   dest_to:any;
   total_prob:any;
   time_to_location:any;
-  // hours_to_location:any;
+  casualtygrid:Array<casualtyGrid>=[]
+
+  //For Incident Objectives//
+  op_period_from:any;
+  op_period_to:any;
+  people:any;
+  environment:any;
+  asset:any;
+  reputation:any;
+  gsa:any;
+  og:any
+  // END //
+}
+export class casualtyGrid{
+  id:any
+  emp_condition: any;
+  location: any;
+  time: any;
 }
 @Component({
   selector: 'app-board',
@@ -404,19 +421,22 @@ export class BoardComponent implements OnInit, OnDestroy {
         );
       }
     } else if (this.id_create == 'casual') {
-      for (let i = 0; i < this.vesselArray.length; i++) {
-        if (
-          this.vesselArray[i].full_name == '' ||
-          this.vesselArray[i].employer == '' ||
-          this.vesselArray[i].condition == '' ||
-          this.vesselArray[i].location == '' ||
-          this.vesselArray[i].time == ''
-        ) {
-        } else {
-          counter++;
-        }
+      for(let i = 0; i<this.vesselArray.length;i++){
+          for(let j =0 ;j< this.vesselArray[i].casualtygrid.length;j++){
+              if(this.vesselArray[i].casualtygrid[j].emp_condition == '' ||
+              this.vesselArray[i].employer == '' ||
+              this.vesselArray[i].full_name == '' ||
+              this.vesselArray[i].casualtygrid[j].location == '' ||
+              this.vesselArray[i].casualtygrid[j].time == '' )
+              {
+                this.toastr.errorToastr(
+                  'Some of  fields are empty, please fill them up',
+                  ''
+                );
+                return;
+               }
+          }
       }
-      if (counter == this.vesselArray.length) {
         var dt3 = {
           inc_name: localStorage.getItem('Inc_name'),
           inc_id: localStorage.getItem('Inc_id'),
@@ -458,25 +478,9 @@ export class BoardComponent implements OnInit, OnDestroy {
                   toastTimeout: 5000,
                 });
               }
-            },
-            (error) => {
-              this.toastr.errorToastr(
-                'Something Went Wrong,Please Try Again After Some Time',
-                'Error!',
-                {
-                  position: 'top-center',
-                  animate: 'slideFromTop',
-                  toastTimeout: 5000,
-                }
-              );
             }
           );
-      } else {
-        this.toastr.errorToastr(
-          'Some of  fields are empty, please fill them up',
-          ''
-        );
-      }
+
     } else if (this.id_create == 'evacuation') {
       for (let i = 0; i < this.vesselArray.length; i++) {
         if (
@@ -809,7 +813,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.LogForm.form.patchValue({
         inc_id: localStorage.getItem('Inc_id'),
       });
-      // this.getOffShoreLocation();
       this.getCasualtyStatus(localStorage.getItem('Inc_id'));
     } else if (this.id_create == 'evacuation') {
       //For Casualty Status
@@ -903,6 +906,10 @@ export class BoardComponent implements OnInit, OnDestroy {
         inc_id: localStorage.getItem('Inc_id'),
       });
       this.getSetPobStatuc(localStorage.getItem('Inc_id'));
+    }
+    else{
+      this.vesselArray.length = 0;
+      this.set_Inc_objectives();
     }
   }
   //For FilterData from data table
@@ -1007,10 +1014,8 @@ export class BoardComponent implements OnInit, OnDestroy {
         id: '0',
         full_name: '',
         employer: '',
-        condition: '',
-        location: '',
-        time: '',
-      };
+        casualtygrid:[{id:0,emp_condition: '',location: '',time: ''}]
+      }
       this.vesselArray.push(this.vesselDynamic);
       // return true;
     } else if (this.id_create == 'events') {
@@ -1032,11 +1037,14 @@ export class BoardComponent implements OnInit, OnDestroy {
       };
       this.vesselArray.push(this.vesselDynamic);
     } else if (this.id_create == 'pob') {
-      // this.vesselDynamic =  {id:"0",time:this.datePipe.transform(this.now,'HH:mma'),destination:"",mode_of_transport:"",pob_remaining:"",remarks:""};
-      // this.vesselArray.push(this.vesselDynamic);
       this.vesselDynamic = { id: '0', prob_cat_id: '', Time: '', value: '' };
       this.vesselArray.push(this.vesselDynamic);
     }
+    else{this.set_Inc_objectives();}
+  }
+  set_Inc_objectives(){
+    this.vesselDynamic = { id: '0', op_period_from:'',op_period_to:'', people:'',environment:'',asset:'',reputation:'',gsa:'',og:''};
+    this.vesselArray.push(this.vesselDynamic);
   }
   //for displaying vessel status continiously on the board
   display_vessel_status(i: any, data1: any) {
@@ -1248,6 +1256,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       .global_service('0', '/casualty', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
+        console.log(data);
+
         this.get_casualty_status.length = 0;
         this.get_casualty_status = data;
         this.get_incident_details_after_save = this.get_casualty_status;
@@ -1320,6 +1330,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .global_service('0', '/casualty_board', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
+      console.log(data)
         this.vesselArray.length = 0;
         this.get_incident_details_after_save = data;
         if (this.get_incident_details_after_save.length > 0) {
@@ -1330,27 +1341,25 @@ export class BoardComponent implements OnInit, OnDestroy {
             i < this.get_incident_details_after_save.length;
             i++
           ) {
-            this.vesselDynamic = {
+             this.vesselDynamic = {
               id: this.get_incident_details_after_save[i].id,
               full_name: this.get_incident_details_after_save[i].full_name,
               employer: this.get_incident_details_after_save[i].employer,
-              condition: this.get_incident_details_after_save[i].emp_condition,
-              location: this.get_incident_details_after_save[i].location,
-              time: this.get_incident_details_after_save[i].time,
-            };
+              casualtygrid: this.get_incident_details_after_save[i].casualtygrid
+            }
             this.vesselArray.push(this.vesselDynamic);
           }
         } else {
-          this.vesselDynamic = {
-            id: '0',
-            full_name: '',
-            employer: '',
-            condition: '',
-            location: '',
-            time: '',
-          };
-          this.vesselArray.push(this.vesselDynamic);
+            this.vesselDynamic = {
+              id: '0',
+              full_name: '',
+              employer: '',
+              casualtygrid:[{id:0,emp_condition: '',location: '',time: ''}]
+            }
+            this.vesselArray.push(this.vesselDynamic);
         }
+        console.log(this.vesselArray);
+
       });
   }
   getSetPobStatuc(_id: any) {
@@ -1358,6 +1367,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       .global_service('0', '/prob_board', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
+        console.log(data);
+
         this.vesselArray.length = 0;
         this.get_incident_details_after_save = data;
         if (this.get_incident_details_after_save.length > 0) {
@@ -1446,9 +1457,48 @@ export class BoardComponent implements OnInit, OnDestroy {
     const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
     dialogref.afterClosed().subscribe((dt) => {
          if(dt){
-          console.log('sss');
-
          }
     })
   }
+
+  AddRow(index: any, _b_type: any, details: any){this.vesselArray[index].casualtygrid.push({id:0,emp_condition: '',location: '',time: ''});}
+  deleteSubRow(index: any,sub_index: any, _b_type: any, details: any){
+    const disalogConfig = new MatDialogConfig();
+    disalogConfig.disableClose = false;
+    disalogConfig.autoFocus = true;
+    disalogConfig.width = '35%';
+    disalogConfig.data = {
+      board_type: _b_type,
+      api_name: '',
+      name: 'board Type',
+      id: details,
+    };
+    const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
+    dialogref.afterClosed().subscribe((dt) => {
+      if (dt == 1) {
+        if(details!='0'){
+          this.emergencyservice
+          .global_service(
+            '0',
+            '/delete_board',
+            'board_id=8&id=' + details
+          )
+          .subscribe((res:any) => {
+                 if(res.suc > 0){
+                     this.vesselArray[index].casualtygrid.splice(sub_index,1);
+                     this.toastr.successToastr(res.msg,'');
+                    //  this.setStatus(index, _b_type);
+                 }
+                 else{
+                   this.toastr.errorToastr('Something wrong happen!! plese try again later','')
+                 }
+          })
+        }
+        else{
+          this.vesselArray[index].casualtygrid.splice(sub_index,1);
+        }
+      }
+  })
+  }
+
 }

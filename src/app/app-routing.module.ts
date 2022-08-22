@@ -67,6 +67,7 @@ import { EditLogSheetComponent } from './AfterLogin/log-sheet/Edit-Log-Sheet/edi
 import { LogSheetComponent } from './AfterLogin/log-sheet/log-sheet.component';
 import { MediaComponent } from './AfterLogin/Media_Module/media/media.component';
 import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/modify-media.component';
+import { OilspillComponent } from './AfterLogin/oilspill/oilspill.component';
 import { ReportdatapoolDetailsComponent } from './AfterLogin/report-datepool/detailsReportdatapool/reportdatapool-details/reportdatapool-details.component';
 import { ReportDatepoolComponent } from './AfterLogin/report-datepool/report-datepool.component';
 import { RepositoryComponent } from './AfterLogin/repository/repository.component';
@@ -398,6 +399,10 @@ const routes: Routes = [
   {
        path:'media/:type/:id',
        component:ModifyMediaComponent
+  },
+  {
+    path:'oilSpill',
+    component:OilspillComponent
   },
   {
     path:"**",
