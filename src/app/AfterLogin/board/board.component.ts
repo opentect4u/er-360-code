@@ -22,6 +22,7 @@ import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.serv
 import { global_url_test } from 'src/app/url';
 import { validations } from 'src/app/utilitY/validation';
 import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
+
 // import { saveAs } from 'file-saver';
 declare var $: any;
 export class DynamicGrid {
@@ -72,10 +73,10 @@ export class vesselGrid {
   op_period_to:any;
   people:any;
   environment:any;
-  asset:any;
+  assets:any;
   reputation:any;
-  gsa:any;
-  og:any
+  awareness:any;
+  obj_general:any
   // END //
 }
 export class casualtyGrid{
@@ -101,6 +102,10 @@ export class BoardComponent implements OnInit, OnDestroy {
   _active_flag: any = localStorage.getItem('active_flag');
   @ViewChild('myModalClose') modalClose!: ElementRef;
   @ViewChild('logForm') logForm!: NgForm;
+  period_from_dt:any
+  period_to_dt:any
+  general:any
+
   _vis_unit:any;
  _brief_desc:any;
   temp_unit: any;
@@ -109,6 +114,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   helicopter_status: any;
   evacuation_status: any;
   events_status: any;
+  inc_objective_status:any
   casualy_status: any;
    _pob_transported:any;
   act_Inc_id: any;
@@ -143,6 +149,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   get_casualty_status: any = [];
   get_helicopter_status: any = [];
   get_evacuation_status: any = [];
+  getIncObjectives:any = [];
   get_prob_status: any = [];
   getWindDirection:any=[];
   get_events_status: any = [];
@@ -619,7 +626,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               );
             }
           );
-        // console.log(this.vesselArray);
+        // //this.vesselArray);
 
       } else {
         this.toastr.errorToastr(
@@ -682,6 +689,35 @@ export class BoardComponent implements OnInit, OnDestroy {
         );
       }
     }
+    else{
+      var inc_objectives = {
+        inc_name: localStorage.getItem('Inc_name'),
+        inc_id: localStorage.getItem('Inc_id'),
+        user: this.default_user,
+        dt: this.vesselArray,
+      };
+      this.emergencyservice
+      .global_service('1','/inc_obj',inc_objectives).subscribe((res:any) =>{
+        if (res.suc > 0) {
+          clearTimeout(this.inc_objective_status);
+          setTimeout(() => {
+            this.setIncObjectives(localStorage.getItem('Inc_id'));
+            this.toastr.successToastr("Inserted Successfully",'');
+            this.modalClose.nativeElement.click();
+          },500)
+          // var post_notification = global_url_test.getboardStatus(
+          //   localStorage.getItem('Email'),
+          //   'BE',
+          //   this.mode,
+          //   this.datePipe.transform(new Date(), 'dd/MM/YYYY HH:mma')
+          //   );
+          // this.Post_notification(post_notification);
+        }
+        else{
+          this.toastr.errorToastr('Something wrong happen!! please try again later','');
+        }
+      })
+    }
   }
   set_modal_for_create(flag: any) {
     this.id_create = flag;
@@ -736,7 +772,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       //.log(this.get_vessel_status.length)
       this.get_incident_details_after_save = this.get_vessel_status;
       this.vesselArray.length = 0;
-       console.log(this.get_incident_details_after_save)
+       //this.get_incident_details_after_save)
       if (this.get_incident_details_after_save.length > 0) {
         this.vesselDynamic = '';
         for (let i = 0; i < this.get_incident_details_after_save.length; i++) {
@@ -753,7 +789,7 @@ export class BoardComponent implements OnInit, OnDestroy {
             time_to_location:moment.utc(moment(this.get_incident_details_after_save[i].eta,"HH:mm").diff(moment(this.get_incident_details_after_save[i].etd,"HH:mm"))).format("HH:mm")
           };
           this.vesselArray.push(this.vesselDynamic);
-          console.log(this.vesselArray);
+          //this.vesselArray);
 
         }
       } else {
@@ -826,7 +862,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.vesselArray.length = 0;
       this.get_incident_details_after_save = this.get_evacuation_status;
       //.log(this.get_incident_details_after_save);
-        console.log(this.get_incident_details_after_save);
+        //this.get_incident_details_after_save);
 
       if (this.get_incident_details_after_save.length > 0) {
         // this.vesselArray.length=0;
@@ -845,7 +881,7 @@ export class BoardComponent implements OnInit, OnDestroy {
              dest_to:this.get_incident_details_after_save[i].dest_to
           };
           this.vesselArray.push(this.vesselDynamic);
-        console.log(this.vesselArray);
+        //this.vesselArray);
 
         }
       } else {
@@ -860,7 +896,7 @@ export class BoardComponent implements OnInit, OnDestroy {
           dest_to:''
         };
         this.vesselArray.push(this.vesselDynamic);
-        console.log(this.vesselArray)
+        //this.vesselArray)
       }
     } else if (this.id_create == 'events') {
       this.LogForm.form.patchValue({
@@ -908,8 +944,10 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.getSetPobStatuc(localStorage.getItem('Inc_id'));
     }
     else{
-      this.vesselArray.length = 0;
-      this.set_Inc_objectives();
+      this.LogForm.form.patchValue({
+            inc_id: localStorage.getItem('Inc_id'),
+          });
+      this.getIncidentObjectives(localStorage.getItem('Inc_id'));
     }
   }
   //For FilterData from data table
@@ -1039,11 +1077,10 @@ export class BoardComponent implements OnInit, OnDestroy {
     } else if (this.id_create == 'pob') {
       this.vesselDynamic = { id: '0', prob_cat_id: '', Time: '', value: '' };
       this.vesselArray.push(this.vesselDynamic);
-    }
-    else{this.set_Inc_objectives();}
+    }else{this.set_Inc_objectives();}
   }
   set_Inc_objectives(){
-    this.vesselDynamic = { id: '0', op_period_from:'',op_period_to:'', people:'',environment:'',asset:'',reputation:'',gsa:'',og:''};
+    this.vesselDynamic = { id: '0', op_period_from:'',op_period_to:'', people:'',environment:'',assets:'',reputation:'',awareness:'',obj_general:''};
     this.vesselArray.push(this.vesselDynamic);
   }
   //for displaying vessel status continiously on the board
@@ -1122,6 +1159,25 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.event_logs = true;
     }, 5000);
   }
+  display_Incident_objectives(j:any,data: any){
+    if (j >= data.length) {
+      j = 0;
+    }
+    if (data != '') {
+      this.period_from_dt = this.datePipe.transform(data[j].op_period_from,'dd/MM/YYYY HH:mm');
+      this.period_to_dt =this.datePipe.transform( data[j].op_period_to,'dd/MM/YYYY HH:mm');
+      this.general = data[j].obj_general;
+      //data);
+    }
+    this.inc_objective_status = setTimeout(() => {
+      j = j + 1;
+      if (!this.alive) {
+        return;
+      }
+      this.display_Incident_objectives(j, data);
+      this.event_logs = true;
+    }, 5000);
+  }
   //for displaying Casualty status continiously on the board
   display_casualty_status(j: any, data: any) {
     if (j >= data.length) {
@@ -1149,6 +1205,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     clearTimeout(this.evacuation_status);
     clearTimeout(this.events_status);
     clearTimeout(this.casualy_status);
+    clearTimeout(this.inc_objective_status);
   }
   setStatus(index: any, _b_type: any) {
     //.log({"Index":index,"Type":_b_type});
@@ -1172,6 +1229,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       case 7:
         this.get_events_status.splice(index, 1);
         break;
+      case 9:this.getIncObjectives.splice(index,1);break;
       default:
         break;
     }
@@ -1180,12 +1238,12 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   SetIncStatus(_id: any) {
     //_id)
-     console.log(_id)
+     //_id)
     this.emergencyservice
       .global_service('0', '/inc_board', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
-        console.log(data);
+        //data);
 
         this.get_in_status = data;
         this.get_incident_details_after_save = data;
@@ -1256,7 +1314,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .global_service('0', '/casualty', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
-        console.log(data);
+        //data);
 
         this.get_casualty_status.length = 0;
         this.get_casualty_status = data;
@@ -1324,13 +1382,43 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.offshore_list = data;
       });
   }
+  getIncidentObjectives(_id: any){
+    this.emergencyservice
+    .global_service('0', '/inc_obj', 'inc_id=' + _id)
+    .pipe(map((x: any) => x.msg))
+    .subscribe(res =>{
+      this.vesselArray.length = 0;
+        this.get_incident_details_after_save = res;
+        if(res.length > 0){
+            res.forEach((element:any) => {
+              this.vesselDynamic = {
+                  id: element.id,
+                  op_period_from:this.datePipe.transform(element.op_period_from,'yyyy-MM-ddTHH:mm'),
+                  op_period_to:this.datePipe.transform(element.op_period_to ,'yyyy-MM-ddTHH:mm'),
+                  people:element.people,
+                  environment:element.environment,
+                  assets:element.assets,
+                  reputation:element.reputation,
+                  awareness:element.awareness,
+                  obj_general:element.obj_general};
+               this.vesselArray.push(this.vesselDynamic)
 
+               //this.vesselDynamic);
+
+            });
+        }
+        else{
+          this.set_Inc_objectives();
+        }
+        this.setFormvalue();
+    })
+  }
   getCasualtyStatus(_id: any) {
     this.emergencyservice
       .global_service('0', '/casualty_board', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
-      console.log(data)
+      //data)
         this.vesselArray.length = 0;
         this.get_incident_details_after_save = data;
         if (this.get_incident_details_after_save.length > 0) {
@@ -1358,7 +1446,7 @@ export class BoardComponent implements OnInit, OnDestroy {
             }
             this.vesselArray.push(this.vesselDynamic);
         }
-        console.log(this.vesselArray);
+        //this.vesselArray);
 
       });
   }
@@ -1367,7 +1455,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .global_service('0', '/prob_board', 'inc_id=' + _id)
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
-        console.log(data);
+        //data);
 
         this.vesselArray.length = 0;
         this.get_incident_details_after_save = data;
@@ -1387,7 +1475,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               total_prob:this.get_incident_details_after_save[i].total_prob
             };
             this.vesselArray.push(this.vesselDynamic);
-            console.log(this.vesselArray);
+            //this.vesselArray);
 
           }
         } else {
@@ -1418,6 +1506,19 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
     }, 500);
   }
+  setIncObjectives(_id:any){
+    this.emergencyservice
+    .global_service('0', '/inc_obj', 'inc_id=' + _id)
+    .pipe(map((x: any) => x.msg))
+    .subscribe(res =>{
+      this.getIncObjectives.length =0;
+      this.getIncObjectives = res;
+      this.get_incident_details_after_save = res;
+       if(res.length > 0){
+         this.display_Incident_objectives(0,this.getIncObjectives);
+       }
+    })
+  }
   //For Non Numeric Validations
   PreventNonNumeric(_event: any) {
     validations._preventnonNumeric(_event);
@@ -1438,6 +1539,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.setCasualtyStatus(localStorage.getItem('Inc_id'));
     this.setEvacuationStatus(localStorage.getItem('Inc_id'));
     this.setEventStatus(localStorage.getItem('Inc_id'));
+    this.setIncObjectives(e.id);
     this.alive = true;
   }
   changeTime(event:any,_etd:any,Index:any){

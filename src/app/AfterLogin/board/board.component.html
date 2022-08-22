@@ -223,7 +223,6 @@
 
        </div>
         <!-- Incident Objectives-->
-
        <div class="col-3">
        <div class="whiteBoxComon" type="button" id="events" (click)="set_modal_for_create('inc_objectives')"  data-toggle="modal" data-target="#create_incident_modal">
          <div class="card-header card_headerCustom">
@@ -232,6 +231,22 @@
          </div>
          <div class="card_bodyCustom">
           <h3 id="first-item"></h3>
+          <ul class="listDashboard">
+            <ng-container *ngIf="getIncObjectives.length > 0">
+              <li><strong>Period Date: </strong> {{period_from_dt}}</li>
+              <li><strong>Period To: </strong> {{period_to_dt}}</li>
+              <li><strong>Objectives General: </strong> {{general}}</li>
+            </ng-container>
+            <ng-container *ngIf="getIncObjectives.length == 0">
+              <ul class="boardStatus">
+                <li>
+                  <h5 class="NoBoardStatusAvailable">No  Status Available</h5>
+                </li>
+              </ul>
+            </ng-container>
+
+          </ul>
+
          </div>
        </div>
       </div>
@@ -317,6 +332,8 @@
 
                            <!-- Modal Body -->
         <form #logForm="ngForm" (ngSubmit)="submit(logForm.value)">
+
+
           <!-- For INCIDENT STATUS -->
           <div class="modal-body" id="inc_create" [hidden]="this.id_create!='inc_create'">
 
@@ -902,15 +919,15 @@
             <div class="modal-body" id="inc-create" *ngIf="this.id_create=='inc_objectives'">
               <div class="row">
                 <div class="col-6">
-                  <label>INSTALLATION</label>
-                  <input type="text" class="form-control" readonly/>
+                  <input class="form-control" type="hidden" name="inc_id" id="inc_id" ngModel #inc_id="ngModel">
+                    <label>Installation</label>
+                    <input class="form-control" type="text" name="installation" id="ins_id" ngModel #installation="ngModel" readonly>
                 </div>
                 <div class="col-6">
-                  <label>CO-ORDINATES</label>
-                  <input type="text" class="form-control" readonly/>
+                <label>COORDINATES:</label>
+                <input class="form-control" type="text" name="coordinates" id="coordinate_id" ngModel #coordinates="ngModel" readonly>
                 </div>
-
-              </div>
+             </div>
               <table class="table table-bordered table-striped" style="margin-top:10px" width="100%">
                 <thead>
                   <tr>
@@ -935,7 +952,7 @@
                           </div>
                           <div class="col-4">
                             <label>Objectives-General</label>
-                           <textarea rows="1" cols="20" class="form-control"  [(ngModel)]="vesselArray[i].og" [ngModelOptions]="{standalone: true}"></textarea>
+                           <textarea rows="1" cols="20" class="form-control"  [(ngModel)]="vesselArray[i].obj_general" [ngModelOptions]="{standalone: true}"></textarea>
                           </div>
                          </div>
                           <h3>Objectives Specific Towards : </h3>
@@ -950,7 +967,7 @@
                             </div>
                             <div class="col-3">
                               <label>Asset</label>
-                              <textarea rows="2" cols="20" class="form-control" [(ngModel)]="vesselArray[i].asset" [ngModelOptions]="{standalone: true}"></textarea>
+                              <textarea rows="2" cols="20" class="form-control" [(ngModel)]="vesselArray[i].assets" [ngModelOptions]="{standalone: true}"></textarea>
                             </div>
                             <div class="col-3">
                               <label>Reputation</label>
@@ -961,13 +978,13 @@
                           <div class="row p-2">
                             <div class="col-12">
                               <label>General Situation Awareness:</label>
-                              <textarea rows="3" cols="20" class="form-control"  [(ngModel)]="vesselArray[i].gsa" [ngModelOptions]="{standalone: true}"></textarea>
+                              <textarea rows="3" cols="20" class="form-control"  [(ngModel)]="vesselArray[i].awareness" [ngModelOptions]="{standalone: true}"></textarea>
                             </div>
                           </div>
                          </td>
                          <td class="text-center">
                           <a class="customIcon" type="button"
-                          (click)="deleteRow(i,8,vesselArray[i].id)"
+                          (click)="deleteRow(i,9,vesselArray[i].id)"
                             #tooltip="matTooltip"
                             matTooltip="Delete"><i class="fa fa-trash fa-2x"></i></a>
                          </td>

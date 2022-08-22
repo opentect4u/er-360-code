@@ -119,9 +119,8 @@ getHelicopterStatus(_id:any){
 getCasualtyStatus(_id:any){
  //For Showing Casualty Status
       this.spinner.show('casualty_stats');
-      this.emergencyservice.global_service('0','/casualty_board','inc_id=' +_id).pipe(map((x:any) => x.msg),take(2)).subscribe(res=>{
-    this.get_casualty_status.length=0;
-
+      this.emergencyservice.global_service('0','/casualty','inc_id=' +_id).pipe(map((x:any) => x.msg),take(2)).subscribe(res=>{
+        this.get_casualty_status.length=0;
         this._casualty_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
         this.get_casualty_status.push(dt)
        })

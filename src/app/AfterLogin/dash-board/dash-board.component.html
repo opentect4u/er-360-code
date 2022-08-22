@@ -263,23 +263,23 @@
 								</div> -->
                 <ng-container *ngIf="get_casualty_status.length > 0">
 
-                  <ul class="boardStatus" *ngFor = "let casualty of get_casualty_status">
+                  <ul class="boardStatus" *ngFor = "let casualty of get_casualty_status;let i=index">
                     <li
                       matTooltip="{{casualty?.full_name}}">
                       <strong class="customLabel">Name :</strong> {{casualty?.full_name}}
-
                     </li>
                     <li
-                      matTooltip="{{casualty?.employer}}">
-                      <strong class="customLabel">Employer :</strong>
-                      {{casualty?.employer}}
+                      matTooltip="{{casualty?.location}}">
+                      <strong class="customLabel">Location :</strong>
+                      {{casualty?.location}}
                     </li>
                     <li
                       matTooltip="{{casualty?.emp_condition}}">
                       <strong class="customLabel">Condition :</strong>
                       {{casualty?.emp_condition}}
                     </li>
-                    <hr />
+
+                    <mat-divider class="m-1" *ngIf="i != (get_casualty_status.length-1)"></mat-divider>
                   </ul>
 
                 </ng-container>
@@ -340,7 +340,7 @@
 								<h3 class="customLine"></h3>
                 <ng-container *ngIf="get_evacuation_status.length > 0">
 
-								<ul class="boardStatus" *ngFor="let evacuationStatus of get_evacuation_status">
+								<ul class="boardStatus" *ngFor="let evacuationStatus of get_evacuation_status;let i=index">
 									<li
 										matTooltip="{{evacuationStatus?.mode_of_transport}}">
 										<strong class="customLabel">Transportation Mode :</strong>
@@ -353,7 +353,7 @@
 										<strong class="customLabel">POB Transported :</strong>
 										{{evacuationStatus?.pob_remaining}}
 									</li>
-									<hr />
+									<mat-divider class="m-1" *ngIf="i != (get_evacuation_status.length-1)"></mat-divider>
 								</ul>
               </ng-container>
 								<ul class="boardStatus" *ngIf="get_evacuation_status.length == 0">
@@ -381,7 +381,7 @@
 								</ngx-spinner>
 								<h3 class="customLine"></h3>
                 <ng-container *ngIf="get_events_status.length > 0">
-                  <ul class="boardStatus" *ngFor="let event of get_events_status">
+                  <ul class="boardStatus" *ngFor="let event of get_events_status;let i=index">
                     <li
                       matTooltip="{{event?.resource_assigned}}">
                       <strong class="customLabel">Resource Assigned :</strong>
@@ -393,7 +393,7 @@
                     <li>
                       <strong class="customLabel">Situation Status :</strong> {{event?.situation_status}}
                     </li>
-                    <hr />
+                    <mat-divider class="m-1" *ngIf="i != (get_events_status.length-1)"></mat-divider>
                   </ul>
 
                 </ng-container>

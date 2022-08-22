@@ -355,9 +355,9 @@
                                     </ng-container>
                                     <ng-container *ngIf="this.status_mode=='5'">
                                       <ul *ngFor="let statustype of statusType; let i=index">
-                                        <li> <h4 class="customHeader">{{statustype.full_name}} ({{statustype.employer}})</h4>
-                                            <h5><label class="customLabel">Date: </label> {{statustype.date | date:'dd/MM/YYYY HH:mm'}}</h5>
-                                            <h5><label class="customLabel">Casualty Location: </label> {{statustype.location_name}} ({{statustype.offshore_latt}}:{{statustype.offshore_long}})</h5>
+                                        <li> <h4 class="customHeader">{{statustype.full_name}}</h4>
+                                            <h5><label class="customLabel">Date: </label> {{statustype.date}}</h5>
+                                            <h5><label class="customLabel">Casualty Location: </label> {{statustype.location}}</h5>
                                             <h5><label class="customLabel">Time: </label> {{statustype.time | slice:0:5}} </h5>
                                             <h5><label class="customLabel">Condition: </label> {{statustype.emp_condition}} </h5>
                                            </li>
