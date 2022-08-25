@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { WeatherComponent } from './AfterLogin/weather/weather.component';
+
 import { LoginLEEComponent } from './BeforeLogin/login-lee/login-lee.component';
 import { BeforeLoginDashboardComponent } from './BeforeLogin/login-lee/before-login-dashboard/before-login-dashboard.component';
 import { DashBoardComponent } from './AfterLogin/dash-board/dash-board.component';
@@ -149,9 +151,13 @@ import { PageNotFoundComponent } from './Error_pages/page-not-found/page-not-fou
 import { MediaComponent } from './AfterLogin/Media_Module/media/media.component';
 import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/modify-media.component';
 import { OilspillComponent } from './AfterLogin/oilspill/oilspill.component';
+import { MeetingDashboardComponent } from './AfterLogin/weeklyMeeting/meeting-dashboard/meeting-dashboard.component';
+import { ModifyMeetingComponent } from './AfterLogin/weeklyMeeting/modify-meeting/modify-meeting.component';
+
 //End//
 @NgModule({
   declarations: [
+    WeatherComponent ,
     NotificationComponent,
     AppComponent,
     LoginLEEComponent,
@@ -231,7 +237,9 @@ import { OilspillComponent } from './AfterLogin/oilspill/oilspill.component';
     PageNotFoundComponent,
     MediaComponent,
     ModifyMediaComponent,
-    OilspillComponent
+    OilspillComponent,
+    MeetingDashboardComponent,
+    ModifyMeetingComponent
     // SearchFilterPipe
   ],
   imports: [

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { WeatherComponent } from './AfterLogin/weather/weather.component';
 import { AddAdminOffshoreComponent } from './Admin/AfterLogin/add-admin-offshore/add-admin-offshore.component';
 import { AdminDashboardComponent } from './Admin/AfterLogin/admin-dashboard/admin-dashboard.component';
 import { AddAdminDepartmentComponent } from './Admin/AfterLogin/Admin-Department/add-admin-department/add-admin-department.component';
@@ -72,6 +72,8 @@ import { ReportdatapoolDetailsComponent } from './AfterLogin/report-datepool/det
 import { ReportDatepoolComponent } from './AfterLogin/report-datepool/report-datepool.component';
 import { RepositoryComponent } from './AfterLogin/repository/repository.component';
 import { UserInfoComponent } from './AfterLogin/user-info/user-info.component';
+import { MeetingDashboardComponent } from './AfterLogin/weeklyMeeting/meeting-dashboard/meeting-dashboard.component';
+import { ModifyMeetingComponent } from './AfterLogin/weeklyMeeting/modify-meeting/modify-meeting.component';
 import { BeforeLoginDashboardComponent } from './BeforeLogin/login-lee/before-login-dashboard/before-login-dashboard.component';
 import { ForgotPasswordComponent } from './BeforeLogin/login-lee/ForgetPassword/forgot-password/forgot-password.component';
 import { LoginLEEComponent } from './BeforeLogin/login-lee/login-lee.component';
@@ -404,6 +406,18 @@ const routes: Routes = [
     path:'oilSpill',
     component:OilspillComponent
   },
+  {
+    path:'meeting',
+    component:MeetingDashboardComponent
+  },
+  {
+    path:'meeting/:id/:type',
+    component:ModifyMeetingComponent
+  },
+  {
+    path:'weather',
+    component:WeatherComponent
+   },
   {
     path:"**",
     component:PageNotFoundComponent

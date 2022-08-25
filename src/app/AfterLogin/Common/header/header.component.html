@@ -16,8 +16,9 @@
         <strong >Name:</strong>
         <span #tooltip="matTooltip" matTooltip="{{Inc_Name}}">{{(Inc_Name.length > 20 )? (Inc_Name | slice:0:18)+'..':(Inc_Name)}}</span>
 
-        <a #tooltip="matTooltip" matTooltip="click to preview all incident list"  data-toggle="dropdown" *ngIf="_activeIncBackup.length > 1" aria-haspopup="true" role="button" aria-expanded="false"><mat-icon class="customArrow">arrow_downward</mat-icon></a>
-        <div class="dropdown-menu dropdown-menu-end dropdownActive p-3" aria-labelledby="navbarDropdown">
+        <a #tooltip="matTooltip"  matTooltip="click to preview all incident list"  data-toggle="dropdown" *ngIf="_activeIncBackup.length > 1" aria-haspopup="true" role="button" aria-expanded="false"><mat-icon class="customArrow">arrow_downward</mat-icon></a>
+
+      <div class="dropdown-menu dropdown-menu-end dropdownActive p-3" aria-labelledby="navbarDropdown">
          <ul class="list-unstyled" *ngIf="_selected_Inc !=''">
           <li  class="text-success d-flex">
             <mat-icon class="d-flex align-items-center selectedIcon">done</mat-icon>

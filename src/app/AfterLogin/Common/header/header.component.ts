@@ -133,9 +133,9 @@ export class HeaderComponent implements OnInit {
       id:localStorage.getItem('Employee_id'),
       user:localStorage.getItem('Email')
     }
-    localStorage.clear();
     this.emergencyservice.global_service('1','/log_out',dt).subscribe(data=>{
     })
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
   show_pass(_type:any){
