@@ -13,7 +13,7 @@ import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.serv
 export class UserInfoComponent implements OnInit {
   headername:any='User Details';
   icon:any='fa fa-user';
-  displayedColumns: string[] = ['User_Name','Position','Team','Status'];
+  displayedColumns: string[] = ['User_Name','Position','Team','Status','Last login'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matsort!: MatSort;
   dataSource= new MatTableDataSource<userDtls>();
@@ -39,8 +39,12 @@ export class UserInfoComponent implements OnInit {
     }
   }
   getUsers(_e:any){
-    console.log(_e)
     this.putdata(_e);
+  }
+  setHoursMinutes(min:any){
+    var hour = Math.floor(Number(min) / 60); //1h
+    var minutes = Number(min) - (hour * 60); //30m
+    return hour + 'H'+ ':' + minutes + 'M';
   }
 
 }

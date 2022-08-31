@@ -8,7 +8,6 @@ import { Notifiactions } from 'src/app/Model/Notifiactions';
 import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.service';
 import { global_url_test } from 'src/app/url';
 
-declare var $:any;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -242,7 +241,6 @@ export class HeaderComponent implements OnInit {
     this.img_src='assets/images/no-user.png';
   }
   select_mode(mode:any){
-  //  $('#activId').inner
     var dt={
       user:this.email,
       emp_id:this.Emp_id,

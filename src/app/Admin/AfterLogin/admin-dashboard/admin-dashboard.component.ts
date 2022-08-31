@@ -105,7 +105,6 @@ export class AdminDashboardComponent implements OnInit {
     var dt = status_mode!='4' ? 'inc_id='+this.incDetails?.id+'&board_id='+this.status_mode : 'inc_id='+this.incDetails?.id;
     this.emergencyservice.global_service('0',api_name,dt).pipe(map((x:any) => x.msg)).subscribe(data=>{
       console.log(data);
-
       this.statusType=data;
     })
   }

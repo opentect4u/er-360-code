@@ -129,7 +129,7 @@
 						</div>
 
 
-						<div class="whiteBox whiteBoxHeightNon">
+						<div class="whiteBox whiteBoxHeightNon whiteBox_marg_bot">
 							<div class="card-header card_headerCustom">
 								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Helicopter Status</h2>
 								<button class="btn custom_btn pull-right"
@@ -181,6 +181,39 @@
 
 						</div>
 
+            <div class="whiteBox whiteBoxHeightNon">
+							<div class="card-header card_headerCustom">
+								<h2 class="pull-left text-dark titleDashBox" id="card_heading">Incident Objective Status</h2>
+								<button class="btn custom_btn pull-right"
+									(click)="go_to_boards('inc_objectives')">Details</button>
+								<br clear="all">
+							</div>
+              <div class="card_bodyCustom scroll">
+								<div class="verticalScroll scrollTableData scrollTableDataHeightNon">
+                  <ng-container *ngIf="get_Incident_objectives.length > 0">
+                    <table>
+                      <thead>
+                       <tr>
+                         <th>Period Date</th>
+                         <th>Period To</th>
+                         <th>Objectives General</th>
+                       </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let inc_obj of get_Incident_objectives">
+                             <td>{{inc_obj.op_period_from | date:'dd/MM/YYYY HH:mm'}}</td>
+                             <td>{{inc_obj.op_period_to | date:'dd/MM/YYYY HH:mm'}}</td>
+                             <td>{{inc_obj.obj_general}}</td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </ng-container>
+                  <ng-container *ngIf="get_Incident_objectives.length == 0">
+                    <h5  class="NoBoardStatusAvailable">No Incident Objective Status Available</h5>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
 
 					</div>
 				</div>

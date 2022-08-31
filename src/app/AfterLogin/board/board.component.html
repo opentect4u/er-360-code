@@ -224,7 +224,7 @@
        </div>
         <!-- Incident Objectives-->
        <div class="col-3">
-       <div class="whiteBoxComon" type="button" id="events" (click)="set_modal_for_create('inc_objectives')"  data-toggle="modal" data-target="#create_incident_modal">
+       <div class="whiteBoxComon" type="button" id="inc_objectives" (click)="set_modal_for_create('inc_objectives')"  data-toggle="modal" data-target="#create_incident_modal">
          <div class="card-header card_headerCustom">
            <h2 class="pull-left text-dark titleDashBox">Incident Objectives</h2>
 
@@ -916,7 +916,7 @@
              </table>
             </div>
             <!-- Incident Objectives -->
-            <div class="modal-body" id="inc-create" *ngIf="this.id_create=='inc_objectives'">
+            <div class="modal-body" id="inc_objectives" *ngIf="this.id_create=='inc_objectives'">
               <div class="row">
                 <div class="col-6">
                   <input class="form-control" type="hidden" name="inc_id" id="inc_id" ngModel #inc_id="ngModel">

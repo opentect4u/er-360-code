@@ -30,6 +30,7 @@ export class DashBoardComponent implements OnInit {
   inc_temparature:any='';
   wind_speed:any='';
   get_vessel_status:any=[];
+  get_Incident_objectives:any=[];
   get_helicopter_status:any=[];
   get_casualty_status:any=[];
   get_evacuation_status:any=[];
@@ -68,7 +69,10 @@ export class DashBoardComponent implements OnInit {
       }
     }
   ngOnInit(): void {this.emergencyservice.joinRoom({user:localStorage.getItem('Emp_name'),room:this.global_inc,emp_code:localStorage.getItem('Employee_id')});}
-  go_to_boards(v:any){localStorage.setItem('id_create',v); this.router.navigate(['/Board']);}
+  go_to_boards(v:any){
+    localStorage.setItem('id_create',v);
+    this.router.navigate(['/Board']);
+  }
 
 getTooltipText(v:any,v1:any,v2:any,v3:any,v4:any,v5:any,mode:any){
   return  mode=='V' ? `Name :  ${v} (${v1})
@@ -326,10 +330,22 @@ checkIfHasCHild(){
       this.messageText.removeChild(this.messageText.firstChild);
     }
 }
+getIncidentObjectives(_id:any){
+  this.emergencyservice.global_service('0', '/inc_obj', 'inc_id=' + _id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+    // console.log(res);
+    this.get_Incident_objectives.length = 0;
+    from(res).pipe(take(5)).subscribe(dt =>{
+      console.log(res);
+      this.get_Incident_objectives.push(dt);
+    })
+
+    })
+}
 getIncDetails(e:IncDetails){
       this.getIncStatus(e.id);
       this.getVesselStatus(e.id);
       this.getHelicopterStatus(e.id);
+      this.getIncidentObjectives(e.id);
       this.getCasualtyStatus(e.id);
       this.getEvacuationStatus(e.id);
       this.getEventStatus(e.id);

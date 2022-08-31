@@ -1,3 +1,8 @@
+   /* ********** app-routing.module.ts************
+     This is the main routing section of this project,where
+     all routing of components are declared.
+    *******************  End ********************/
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WeatherComponent } from './AfterLogin/weather/weather.component';
@@ -81,10 +86,13 @@ import { NotificationComponent } from './CommonDialogAlert/Notification/Notifica
 import { PageNotFoundComponent } from './Error_pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
+  /** Routing for BeforeLoginDashboardComponent (src/app/BeforeLogin/befor-login-dashboard) => It is the landing page of ER-360 Application **/
   {
     path:'',
     component:BeforeLoginDashboardComponent
   },
+  /**                                                 END                                                                                   **/
+
   {
     path:'userinfo',
     component:UserInfoComponent

@@ -318,12 +318,13 @@
                     <li [ngClass]="status_mode=='5' ? 'active' : ''" (click)="status_type('5')"><a>Casualty Status</a></li>
                     <li [ngClass]="status_mode=='6' ? 'active' : ''" (click)="status_type('6')"><a>Evacuation Status</a></li>
                     <li [ngClass]="status_mode=='7' ? 'active' : ''" (click)="status_type('7')"><a>Events Log</a></li>
+                    <li [ngClass]="status_mode=='8' ? 'active' : ''" (click)="status_type('8')"><a>Incident Objectives</a></li>
+
 
                     </ul>
                     <div [ngClass]="statusType.length > 0 ? 'tab' : 'tab noDataFound'">
                             <div class="pane">
                             <div class="tab-content" >
-
                                     <ng-container *ngIf="this.status_mode=='2'">
 
                                       <ul *ngFor="let statustype of statusType; let i=index">
@@ -379,6 +380,18 @@
                                             <h5><label class="customLabel">Date: </label> {{statustype.date |  date:'dd/MM/YYYY HH:mm'}}</h5>
                                             <h5><label class="customLabel">Resource Assigned: </label> {{statustype.resource_assigned}}</h5>
                                             <h5><label class="customLabel">Situation Status: </label> {{statustype.situation_status}} </h5>
+                                           </li>
+                                    </ul>
+                                    </ng-container>
+                                    <ng-container *ngIf="this.status_mode=='8'">
+                                      <ul *ngFor="let statustype of statusType; let i=index">
+                                        <li> <h4 class="customHeader">{{statustype.obj_general}}</h4>
+                                          <h4 class="customHeader">({{statustype.op_period_from | date:'dd/MM/YYYY HH:mm'}} - {{statustype.op_period_to | date:'dd/MM/YYYY HH:mm'}})</h4>
+                                            <h5><label class="customLabel">People: </label> {{statustype.people}}</h5>
+                                            <h5><label class="customLabel">Environment: </label> {{statustype.environment}}</h5>
+                                            <h5><label class="customLabel">Assets: </label> {{statustype.assets}}</h5>
+                                            <h5><label class="customLabel">Reputation: </label> {{statustype.reputation}}</h5>
+                                            <h5><label class="customLabel">Awareness: </label> {{statustype.awareness}}</h5>
                                            </li>
                                     </ul>
                                     </ng-container>
