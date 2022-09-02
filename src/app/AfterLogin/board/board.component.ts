@@ -690,6 +690,21 @@ export class BoardComponent implements OnInit, OnDestroy {
       }
     }
     else{
+      for(let i = 0; i<this.vesselArray.length;i++){
+             if(this.vesselArray[i].assets == '' || this.vesselArray[i].awareness == '' ||
+             this.vesselArray[i].environment == '' || this.vesselArray[i].obj_general == '' ||
+             this.vesselArray[i].people == '' || this.vesselArray[i].reputation == '' ||
+             this.vesselArray[i].op_period_from == '' ||  this.vesselArray[i].op_period_to == '')
+             {
+              this.toastr.errorToastr(
+                'Some of  fields are empty, please fill them up',
+                ''
+              );
+              return;
+             }
+      }
+      console.log(this.vesselArray);
+
       var inc_objectives = {
         inc_name: localStorage.getItem('Inc_name'),
         inc_id: localStorage.getItem('Inc_id'),
@@ -981,7 +996,7 @@ export class BoardComponent implements OnInit, OnDestroy {
             .global_service(
               '0',
               '/delete_board',
-              'board_id=' + _b_type + '&id=' + details
+              'board_id=' + _b_type + '&id=' + details + '&inc_id=' + localStorage.getItem('Inc_id')
             )
             .subscribe((res) => {
               this.check_respond = res;
@@ -1583,7 +1598,7 @@ export class BoardComponent implements OnInit, OnDestroy {
           .global_service(
             '0',
             '/delete_board',
-            'board_id=8&id=' + details
+            'board_id=8&id=' + details + '&inc_id='+localStorage.getItem('Inc_id')
           )
           .subscribe((res:any) => {
                  if(res.suc > 0){

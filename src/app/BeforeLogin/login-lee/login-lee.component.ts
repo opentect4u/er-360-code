@@ -15,7 +15,8 @@ export class LoginLEEComponent implements OnInit {
   constructor(public toastr: ToastrManager,
     private emergencyservice:VirtualEmergencyService,private router:Router,private spinner:NgxSpinnerService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   submitForm(v:any){
        this.spinner.show();
@@ -33,8 +34,10 @@ export class LoginLEEComponent implements OnInit {
         localStorage.setItem('_local_sel_id','0');
         localStorage.setItem('_emp_id',this.check_response.msg[0].id);
         localStorage.setItem('app_flag',this.check_response.msg[0].approval_flag);
+        localStorage.setItem('_u_login','true');
         this.spinner.hide();
         this.router.navigate(['/dashboard']);
+
         }
         else{
           this.spinner.hide();

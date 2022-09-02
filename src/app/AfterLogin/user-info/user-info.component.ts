@@ -39,6 +39,8 @@ export class UserInfoComponent implements OnInit {
     }
   }
   getUsers(_e:any){
+    console.log(_e);
+
     this.putdata(_e);
   }
   setHoursMinutes(min:any){

@@ -44,8 +44,9 @@ export class SidebarComponent implements OnInit,OnDestroy {
     this.checkStatus();
   }
   checkStatus(){
+    this.emergencyservice.emit('user_status','');
     this.emergencyservice.listen('user_status').pipe(map((x:any) => x.users)).subscribe(data=>{
-       console.log("new:", data)
+      //  console.log("new:", data)
             this._u_status.emit(data);
             if(data.find((x:userStatus) => x.employee_id == Number(localStorage.getItem('Employee_id')))?.user_status == 'O'){
                  this._header.logout();

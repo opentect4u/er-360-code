@@ -140,20 +140,37 @@
                         *This Field Is Mandatory
                       </div>
                 </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <b>Roles & Responsibilities <span class="text-danger">*</span></b>
+                <ckeditor
+                #user_role="ngModel"
+                name="user_role"
+                required
+                ngModel
+                [config]="ckeConfig"
+                ></ckeditor>
+                <div *ngIf="user_role.errors?.required && (user_role.touched || user_role.dirty)" class="text-danger h5 mt-2">
+                  *This Field Is Mandatory
                 </div>
+              </div>
+            </div>
+
             <div class="row">
                 <!-- <div class="col-1"></div> -->
                 <div class="col-5">
                 <div class="form-group row">
                         <b>&nbsp;</b><br>
                         <div class="col-sm-12 btnSubmitSec mt-2">
-                        <input type="submit"  class="btn btn-info" id="submit_logForm" name="submit" value="Save" [disabled]="logForm.invalid">
+                        <input type="submit"  class="btn btn-info" id="submit_logForm" name="submit" value="Save" [disabled]="logForm.invalid || roles_responsibility==''">
                         <input type="button" (click)="cancel()" class="btn reset" value="Cancel" >
                         </div>
                         </div>
                 </div>
             </div>
              </form>
+
         </div>
         </div>
     </div>

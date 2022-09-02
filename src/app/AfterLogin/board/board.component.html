@@ -6,7 +6,7 @@
 <app-sidebar class="sidebarMain"></app-sidebar>
 <div class="main-panel">
   <div class="content-wrapper">
-    <div class="card whiteBoxComon_cardCus"  *ngIf="_active_flag != '0'">
+    <div class="card "  *ngIf="_active_flag != '0'">
      <div class="card-body">
 
        <!-- Inicdent Status -->
@@ -678,11 +678,7 @@
                        matTooltip="Delete"
                        (click)="deleteRow(i,4,vesselArray[i].id)"
                        ><i class="fa fa-trash fa-2x"></i></a>
-                       <a class="customIcon" type="button"
-                       #tooltip="matTooltip"
-                       matTooltip="Delete"
-                       (click)="AddRow(i,4,vesselArray[i].id)"
-                       ><i class="fa fa-trash fa-2x"></i></a>
+
                       </td>
                 </tr>
               </tbody>

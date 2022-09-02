@@ -84,6 +84,8 @@ import { ForgotPasswordComponent } from './BeforeLogin/login-lee/ForgetPassword/
 import { LoginLEEComponent } from './BeforeLogin/login-lee/login-lee.component';
 import { NotificationComponent } from './CommonDialogAlert/Notification/Notification.component';
 import { PageNotFoundComponent } from './Error_pages/page-not-found/page-not-found.component';
+import { AuthGuard } from './Gaurds/auth.guard';
+import { AdminAuthGuard } from './Gaurds/admin-auth.guard';
 
 const routes: Routes = [
   /** Routing for BeforeLoginDashboardComponent (src/app/BeforeLogin/befor-login-dashboard) => It is the landing page of ER-360 Application **/
@@ -95,7 +97,8 @@ const routes: Routes = [
 
   {
     path:'userinfo',
-    component:UserInfoComponent
+    component:UserInfoComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'login',
@@ -103,186 +106,241 @@ const routes: Routes = [
   },
   {
     path:'dashboard',
-    component:DashBoardComponent
+    component:DashBoardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'ActivationModule',
-    component:ActivationModuleComponent
+    component:ActivationModuleComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'IncidentModule',
-    component:IncidentModuleComponent
+    component:IncidentModuleComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'AddIncident',
-    component:AddIncidentComponent
+    component:AddIncidentComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'EditIncident/:id',
-    component:EditIncidentComponent
+    component:EditIncidentComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'livelog',
-    component:LiveLogComponent
+    component:LiveLogComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Board',
-    component:BoardComponent
+    component:BoardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Repository/files/:cat_id/:cat_name',
-    component:RepositoryComponent
+    component:RepositoryComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'FormsCheckList',
-    component:FormsChecklistComponent
+    component:FormsChecklistComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Audio_Video',
-    component:AudioVideoConferenceComponent
+    component:AudioVideoConferenceComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Log_Sheet',
-    component:LogSheetComponent
+    component:LogSheetComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Call-Logger',
-    component:CallLoggerComponent
+    component:CallLoggerComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Report_Data_Pool',
-    component:ReportDatepoolComponent
+    component:ReportDatepoolComponent,
+    canActivate:[AuthGuard]
   },
    //Dashboard page
   {
     path:'admin/dashboard',
-    component:AdminDashboardComponent
+    component:AdminDashboardComponent,
+    canActivate:[AdminAuthGuard]
   },
    // Offshore Dashboard page
 
   {
     path:'admin/offshore',
-    component:AdminOffshoreComponent
+    component:AdminOffshoreComponent,
+    canActivate:[AdminAuthGuard]
   }
    // Offshore Add page
   ,{
     path:'admin/offshore/add',
-    component:AddAdminOffshoreComponent
+    component:AddAdminOffshoreComponent,
+    canActivate:[AdminAuthGuard]
   },
   // Offshore Edit page
   {
     path:'admin/offshore/edit/:id',
-    component:EditAdminOffshoreComponent
+    component:EditAdminOffshoreComponent,
+    canActivate:[AdminAuthGuard]
   },
   //Admin Incident Page
   {
     path:'admin/incident',
-    component:AdminIncidentComponent
+    component:AdminIncidentComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Incident edit Page
   {
     path:'admin/incident/edit/:id',
-    component:EditAdminIncidentComponent
+    component:EditAdminIncidentComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Incident Add Page
   {
     path:'admin/incident/add',
-    component:AddAdminIncidentComponent
+    component:AddAdminIncidentComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Tier Page
   {
     path:'admin/tier',
-    component:AdminTierComponent
+    component:AdminTierComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Tier add Page
   {
     path:'admin/tier/add',
-    component:AddAdminTierComponent
+    component:AddAdminTierComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Tier edit Page
   {
     path:'admin/tier/edit/:id',
-    component:EditAdminTierComponent
+    component:EditAdminTierComponent,
+    canActivate:[AdminAuthGuard]
+
   },
    //Admin Position Page
    {
     path:'admin/position',
-    component:AdminPositionComponent
+    component:AdminPositionComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Position add Page
   {
     path:'admin/position/add',
-    component:AddAdminPositionComponent
+    component:AddAdminPositionComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Position edit Page
   {
     path:'admin/position/edit/:id',
-    component:EditAdminPositionComponent
+    component:EditAdminPositionComponent,
+    canActivate:[AdminAuthGuard]
+
   },
    //Admin Department Page
    {
     path:'admin/department',
-    component:AdminDepartmentComponent
+    component:AdminDepartmentComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Department add Page
   {
     path:'admin/department/add',
-    component:AddAdminDepartmentComponent
+    component:AddAdminDepartmentComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Department edit Page
   {
     path:'admin/department/edit/:id',
-    component:EditAdminDepartmentComponent
+    component:EditAdminDepartmentComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Employee Page
   {
     path:'admin/employee',
-    component:AdminEmployeeComponent
+    component:AdminEmployeeComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Employee add Page
   {
     path:'admin/employee/add',
-    component:AddAdminEmployeeComponent
+    component:AddAdminEmployeeComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Employee edit Page
   {
     path:'admin/employee/edit/:id',
-    component:EditAdminEmployeeComponent
+    component:EditAdminEmployeeComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   //Admin Team Page
   {
     path:'admin/team',
-    component:AdminTeamComponent
+    component:AdminTeamComponent,
+    canActivate:[AdminAuthGuard]
   },
   //Admin Team add Page
   {
     path:'admin/team/add',
-    component:AddAdminTeamComponent
+    component:AddAdminTeamComponent,
+    canActivate:[AdminAuthGuard]
   },
   //Admin Team edit Page
   {
     path:'admin/team/edit/:id',
-    component:EditAdminTeamComponent
+    component:EditAdminTeamComponent,
+    canActivate:[AdminAuthGuard]
   },
   //Admin Team AssignTeam Page
   {
     path:'admin/Team/assignteam',
-    component:AssignTeamComponent
+    component:AssignTeamComponent,
+    canActivate:[AdminAuthGuard]
   },
   //Admin Team Member add Page
   {
     path:'admin/Team/addmember',
-    component:AddTeamMemberComponent
+    component:AddTeamMemberComponent,
+    canActivate:[AdminAuthGuard]
   },
    //For Adding Team Status view
    {
     path:'admin/Team/Status/add',
-    component:AddTeamStatusComponent
+    component:AddTeamStatusComponent,
+    canActivate:[AdminAuthGuard]
   },
    //For Adding Report Data Pool Dashboard
   {
     path:'admin/reportdatapoolDashboard',
-    component:ReportDataPooldashboardComponent
+    component:ReportDataPooldashboardComponent,
+    canActivate:[AdminAuthGuard]
+
   },
      //For Adding Report Data Pool Dashboard
      {
@@ -291,7 +349,8 @@ const routes: Routes = [
     },
   {
     path:'admin/User_Status',
-    component:UserStatusComponent
+    component:UserStatusComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path:'admin',
@@ -308,47 +367,60 @@ const routes: Routes = [
   // }
   {
     path:'Editinc',
-    component:EditDashbaordComponent
+    component:EditDashbaordComponent,
+    canActivate:[AuthGuard]
+
   },
   {
     path:'EditApprove',
-    component:ApproveIncidentComponent
+    component:ApproveIncidentComponent,
+    canActivate:[AuthGuard]
   }
   ,{
     path:"category",
-    component:CategoryComponent
+    component:CategoryComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path:'addCategory',
-    component:CreateCategoryComponent
+    component:CreateCategoryComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path:'uploadforms',
-    component:UploadsComponent
+    component:UploadsComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path:'UploadDashBoard',
-    component:UploaddashboardComponent
+    component:UploaddashboardComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path:'formchecklist/files/:id',
-    component:FormschecklistfilesComponent
+    component:FormschecklistfilesComponent,
+    canActivate:[AuthGuard]
+
   },
   {
     path:'AddCallLog/:id',
-    component:AddCallLoggerComponent
+    component:AddCallLoggerComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Conference/:room_id/:name/:email',
-    component:CreateMeetingComponent
+    component:CreateMeetingComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'addLogSheet',
-    component:AddlogsheetComponent
+    component:AddlogsheetComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'EditLogSheet/:id/:flag',
-    component:EditLogSheetComponent
+    component:EditLogSheetComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'firstloggedin',
@@ -360,15 +432,20 @@ const routes: Routes = [
   },
   {
     path:'addRepository',
-    component:AddRepositoryComponent
+    component:AddRepositoryComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'Repo_dashboard',
-    component:RepoDashboardComponent
+    component:RepoDashboardComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   {
     path:'Add_Repo',
-    component:AddRepoComponent
+    component:AddRepoComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   {
     path:'ReportdatapoolDetails/:inc_type',
@@ -388,43 +465,53 @@ const routes: Routes = [
   },
   {
     path:'add_handover',
-    component:HandoverComponent
+    component:HandoverComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'handover',
-    component:HandOverDashboardComponent
+    component:HandOverDashboardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'lesson_learnt',
-    component:LessonDashboardComponent
+    component:LessonDashboardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'add_lesson_learnt/:id',
-    component:AddLessonLearntComponent
+    component:AddLessonLearntComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'media',
-    component:MediaComponent
+    component:MediaComponent,
+    canActivate:[AuthGuard]
   },
   {
        path:'media/:type/:id',
-       component:ModifyMediaComponent
+       component:ModifyMediaComponent,
+       canActivate:[AuthGuard]
   },
   {
     path:'oilSpill',
-    component:OilspillComponent
+    component:OilspillComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'meeting',
-    component:MeetingDashboardComponent
+    component:MeetingDashboardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'meeting/:id/:type',
-    component:ModifyMeetingComponent
+    component:ModifyMeetingComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'weather',
-    component:WeatherComponent
+    component:WeatherComponent,
+    canActivate:[AuthGuard]
    },
   {
     path:"**",

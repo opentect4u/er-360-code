@@ -64,11 +64,10 @@ export class DashBoardComponent implements OnInit {
     private emergencyservice:VirtualEmergencyService,
     private router:Router,
     private spinner:NgxSpinnerService) {
-      if(Number(localStorage.getItem('_SHOW_POPUP')) == 0){
-           this.openDialog();
-      }
+
     }
-  ngOnInit(): void {this.emergencyservice.joinRoom({user:localStorage.getItem('Emp_name'),room:this.global_inc,emp_code:localStorage.getItem('Employee_id')});}
+  ngOnInit(): void {
+    this.emergencyservice.joinRoom({user:localStorage.getItem('Emp_name'),room:this.global_inc,emp_code:localStorage.getItem('Employee_id')});}
   go_to_boards(v:any){
     localStorage.setItem('id_create',v);
     this.router.navigate(['/Board']);
@@ -90,81 +89,114 @@ getTooltipText(v:any,v1:any,v2:any,v3:any,v4:any,v5:any,mode:any){
           `)));
 }
 getIncStatus(_id:any){
-  this.spinner.show('inc_status');
-  //_id);
-
-  this.emergencyservice.global_service('0','/inc_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
-    //res);
+  // this.spinner.show('inc_status');
+  // this.emergencyservice.global_service('0','/inc_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+  //     this.inc_visibility = res.length > 0 ? res[0].visibility + res[0].visibility_unit : '';
+  //     this.inc_sea_state=res.length > 0 ? res[0].sea_state : "";
+  //     this.temp=res.length > 0 ? res[0].temp : '';
+  //     this.wind_speed=res.length > 0 ? res[0].wind_speed + res[0].wind_speed_unit: '';
+  //     this.spinner.hide('inc_status');
+  //     this._temp_unit = res.length > 0 ?  res[0].temp_unit : '';
+  // },error => {this.spinner.hide('inc_status');})
+  // var dt = {
+  //   inc_id:_id
+  // };
+this.emergencyservice.emit('inc_board',_id);
+this.emergencyservice.listen('inc_board').pipe(map((x:any) => x.msg)).subscribe(res=>{
       this.inc_visibility = res.length > 0 ? res[0].visibility + res[0].visibility_unit : '';
       this.inc_sea_state=res.length > 0 ? res[0].sea_state : "";
-      // this.deg=res.length > 0 ? res[0].temp.charAt(res[0].temp.length-1): '';
       this.temp=res.length > 0 ? res[0].temp : '';
       this.wind_speed=res.length > 0 ? res[0].wind_speed + res[0].wind_speed_unit: '';
       this.spinner.hide('inc_status');
       this._temp_unit = res.length > 0 ?  res[0].temp_unit : '';
-  },error => {this.spinner.hide('inc_status');})
-
-
+  })
 }
 getVesselStatus(_id:any){
-  this.spinner.show('vessel_stats');
-  this.emergencyservice.global_service('0','/vessel_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
-    this.get_vessel_status = res;
-    this.spinner.hide('vessel_stats');
-  },error => {this.spinner.hide('vessel_stats');})
+  // this.spinner.show('vessel_stats');
+  // this.emergencyservice.global_service('0','/vessel_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+  //   this.get_vessel_status = res;
+  //   this.spinner.hide('vessel_stats');
+  // },error => {this.spinner.hide('vessel_stats');})
+  this.emergencyservice.emit('vessel_board',_id);
+  this.emergencyservice.listen('vessel_board').pipe(map((x:any) => x.msg)).subscribe(res=>{
+      this.get_vessel_status = res;
+      // this.spinner.hide('vessel_stats');
+    })
 }
 getHelicopterStatus(_id:any){
-  this.spinner.show('heli_stats');
-  this.emergencyservice.global_service('0','/helicopter_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+  // this.spinner.show('heli_stats');
+  // this.emergencyservice.global_service('0','/helicopter_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+  //   this.get_helicopter_status = res;
+  //   this.spinner.hide('heli_stats');
+  // },error => {this.spinner.show('heli_stats');})
+  this.emergencyservice.emit('helicopter_board',_id);
+  this.emergencyservice.listen('helicopter_board').pipe(map((x:any) => x.msg)).subscribe(res=>{
     this.get_helicopter_status = res;
-    this.spinner.hide('heli_stats');
-  },error => {this.spinner.show('heli_stats');})
+  })
 }
 getCasualtyStatus(_id:any){
  //For Showing Casualty Status
-      this.spinner.show('casualty_stats');
-      this.emergencyservice.global_service('0','/casualty','inc_id=' +_id).pipe(map((x:any) => x.msg),take(2)).subscribe(res=>{
+      // this.spinner.show('casualty_stats');
+      // this.emergencyservice.global_service('0','/casualty','inc_id=' +_id).pipe(map((x:any) => x.msg),take(2)).subscribe(res=>{
+      //   this.get_casualty_status.length=0;
+      //   this._casualty_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
+      //   this.get_casualty_status.push(dt)
+      //  })
+      //  this.spinner.hide('casualty_stats');
+      // },err =>{
+      //   this.spinner.hide('casualty_stats');
+      // })
+      this.emergencyservice.emit('casualty',_id);
+       this.emergencyservice.listen('casualty').pipe(map((x:any) => x.msg),take(2)).subscribe(res=>{
         this.get_casualty_status.length=0;
+        console.log(res);
+
         this._casualty_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
         this.get_casualty_status.push(dt)
        })
-       this.spinner.hide('casualty_stats');
-      },err =>{
-        this.spinner.hide('casualty_stats');
       })
 }
 getEvacuationStatus(_id:any){
-  this.spinner.show('evacuations');
-  this.emergencyservice.global_service('0','/evacuation_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
-    //.log(res);
-    this.get_evacuation_status.length = 0;
-
-    this._evacuation_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
-      //.log(dt)
-    this.get_evacuation_status.push(dt)
-    // console.log(this.get_evacuation_status);
-
-     //.log(this.get_evacuation_status)
-
-     })
-    this.spinner.hide('evacuations');
-  },err => {this.spinner.hide('evacuations');})
+  // this.spinner.show('evacuations');
+  // this.emergencyservice.global_service('0','/evacuation_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+  //   this.get_evacuation_status.length = 0;
+  //   this._evacuation_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
+  //   this.get_evacuation_status.push(dt)
+  //    })
+  //   this.spinner.hide('evacuations');
+  // },err => {this.spinner.hide('evacuations');})
+      this.emergencyservice.emit('evacuation_board',_id);
+      this.emergencyservice.listen('evacuation_board').pipe(map((x:any) => x.msg)).subscribe(res=>{
+      this.get_evacuation_status.length = 0;
+      this._evacuation_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
+      this.get_evacuation_status.push(dt);
+       })
+    })
 }
 getEventStatus(_id:any){
-      this.spinner.show('events');
-      this.get_events_status.length=0;
-      this.emergencyservice.global_service('0','/event_log_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+      // this.spinner.show('events');
+      // this.get_events_status.length=0;
+      // this.emergencyservice.global_service('0','/event_log_board','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+      //   this.get_events_status.length=0;
+      //   this._event_observable = from(res).pipe(take(2)).subscribe(dt =>{
+      //   this.get_events_status.push(dt);
+      // })
+      //    this.spinner.hide('events');
+      // },error=>{this.spinner.hide('events')})
+      this.emergencyservice.emit('event_log_board',_id);
+      this.emergencyservice.listen('event_log_board').pipe(map((x:any) => x.msg)).subscribe(res=>{
         this.get_events_status.length=0;
         this._event_observable = from(res).pipe(take(2)).subscribe(dt =>{
         this.get_events_status.push(dt);
-        //  console.log(this.get_events_status)
       })
-         this.spinner.hide('events');
-      },error=>{this.spinner.hide('events')})
-
+    })
 }
 getProbStatus(_id:any){
-       this.emergencyservice.global_service('0','/prob_board_dashboard','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+      //  this.emergencyservice.global_service('0','/prob_board_dashboard','inc_id=' +_id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+      // this.get_prob_status=res;
+      // })
+      this.emergencyservice.emit('prob_board_dashboard',_id);
+         this.emergencyservice.listen('prob_board_dashboard').pipe(map((x:any) => x.msg)).subscribe(res=>{
       this.get_prob_status=res;
       })
 }
@@ -331,44 +363,56 @@ checkIfHasCHild(){
     }
 }
 getIncidentObjectives(_id:any){
-  this.emergencyservice.global_service('0', '/inc_obj', 'inc_id=' + _id).pipe(map((x:any) => x.msg)).subscribe(res=>{
-    // console.log(res);
-    this.get_Incident_objectives.length = 0;
-    from(res).pipe(take(5)).subscribe(dt =>{
-      console.log(res);
-      this.get_Incident_objectives.push(dt);
-    })
-
-    })
+  // this.emergencyservice.global_service('0', '/inc_obj', 'inc_id=' + _id).pipe(map((x:any) => x.msg)).subscribe(res=>{
+  //   this.get_Incident_objectives.length = 0;
+  //   from(res).pipe(take(5)).subscribe(dt =>{
+  //     console.log(res);
+  //     this.get_Incident_objectives.push(dt);
+  //   })
+  //   })
+  this.emergencyservice.emit('inc_obj',_id);
+  this.emergencyservice.listen('inc_obj').pipe(map((x:any) => x.msg)).subscribe(res=>{
+      this.get_Incident_objectives.length = 0;
+      from(res).pipe(take(5)).subscribe(dt =>{
+        console.log(res);
+        this.get_Incident_objectives.push(dt);
+      })
+      })
 }
 getIncDetails(e:IncDetails){
-      this.getIncStatus(e.id);
-      this.getVesselStatus(e.id);
-      this.getHelicopterStatus(e.id);
-      this.getIncidentObjectives(e.id);
-      this.getCasualtyStatus(e.id);
-      this.getEvacuationStatus(e.id);
-      this.getEventStatus(e.id);
-      this.getProbStatus(e.id);
-      this.getChat(e.id);
+    var dt={
+      inc_id:e?.id
+    };
+      this.getIncStatus(dt);
+      this.getVesselStatus(dt);
+      this.getHelicopterStatus(dt);
+      this.getIncidentObjectives(dt);
+      this.getCasualtyStatus(dt);
+      this.getEvacuationStatus(dt);
+      this.getEventStatus(dt);
+      this.getProbStatus(dt);
+      this.getChat(e?.id);
 }
 
-openDialog(){
+openDialog(event:any){
   const disalogConfig = new MatDialogConfig();
     disalogConfig.disableClose = true;
     disalogConfig.autoFocus = false;
-    disalogConfig.width = '50%';
+    disalogConfig.width = '100%';
     disalogConfig.data = {
       name:'SP',
       id:0,
+      roles:event
     };
     const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
     dialogref.afterClosed().subscribe(dt =>{
-      // console.log(dt);
       localStorage.setItem('_SHOW_POPUP','1')
       console.log(localStorage.getItem('_SHOW_POPUP'));
-
     })
 }
-
+getRolesResponsibility(event:any){
+  if(Number(localStorage.getItem('_SHOW_POPUP')) == 0){
+    this.openDialog(event);
+  }
+}
 }

@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { Component, OnInit} from '@angular/core';
 import {Chart } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -43,7 +43,6 @@ export class AdminDashboardComponent implements OnInit {
   constructor(private emergencyservice:VirtualEmergencyService,private spinner:NgxSpinnerService) {
     this.spinner.show();
     this.Actitve_incident();
-
   }
   showCardBody = true;
   arr:any=[];

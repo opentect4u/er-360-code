@@ -1,3 +1,4 @@
+
 /*
       ************ app.module.ts **********
       ***********************************************************************************************************
@@ -303,7 +304,9 @@ import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/mod
 import { OilspillComponent } from './AfterLogin/oilspill/oilspill.component';
 import { MeetingDashboardComponent } from './AfterLogin/weeklyMeeting/meeting-dashboard/meeting-dashboard.component';
 import { ModifyMeetingComponent } from './AfterLogin/weeklyMeeting/modify-meeting/modify-meeting.component';
-
+import { CKEditorModule } from 'ng2-ckeditor';
+import { AuthGuard } from './Gaurds/auth.guard';
+import { AdminAuthGuard } from './Gaurds/admin-auth.guard';
 //End//
 @NgModule({
   //It is the container section of the NgModule where all the commponents that are created is going to be imported here.
@@ -435,13 +438,15 @@ import { ModifyMeetingComponent } from './AfterLogin/weeklyMeeting/modify-meetin
     MatFormFieldModule,
     AngularMultiSelectModule,
     FormsModule,
+    CKEditorModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  // A provider is an instruction to the Dependency Injection system on how to obtain a value for a dependency.
+ // A provider is an instruction to the Dependency Injection system on how to obtain a value for a dependency.
   providers: [DatePipe, // It is used for transforming datetime in the desire format.e.x-(dd-MM-YYYYTHH:mm) -> (YYYY-MM-dd HH:mm)
     {provide:HTTP_INTERCEPTORS,useClass:GlobalErrorHandlingInterceptor,multi:true}, // It is used for handling global error from server
-    {provide:LocationStrategy, useClass:HashLocationStrategy} // It is used for injecting hash in the route url.
+    {provide:LocationStrategy, useClass:HashLocationStrategy}, // It is used for injecting hash in the route url.
+    AuthGuard,AdminAuthGuard
   ],
   bootstrap: [AppComponent]
 })

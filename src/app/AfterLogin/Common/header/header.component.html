@@ -58,18 +58,18 @@
 
 		<ul class="topMenuRight">
 		<li class="userDrop dropdown">
-			<a  class="nav-link"  [matBadge]="_TOTAL_LENGTH_NOTIFICATION" matBadgeOverlap="false" matBadgeSize="medium" [matBadgeHidden]="_TOTAL_LENGTH_NOTIFICATION == 0" id="drop1" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></a>
+			<a  class="nav-link"   [matBadge]="_TOTAL_LENGTH_NOTIFICATION > 99 ? '99+' : _TOTAL_LENGTH_NOTIFICATION" matBadgeOverlap="false" matBadgeSize="medium" [matBadgeHidden]="_TOTAL_LENGTH_NOTIFICATION == 0" id="drop1" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></a>
 			<div class="dropdown-menu customDropdown">
         <ng-container *ngIf="_notification.length > 1">
           <div class="notifications-item" *ngFor="let notify of _notification;let i=index">
-            <ng-container *ngIf="i < 4">
-              <!-- <a  (click)="gotoNotifications(notify.id,notify.activity)">{{notify.narration}}</a> -->
+
+
               <img src="assets/images/no-user.png" alt="img" *ngIf="notify!=null">
               <div class="text" (click)="gotoNotifications(notify.id,notify.activity)">
                <p>{{notify.narration}}</p>
              </div>
-            </ng-container>
-            <hr *ngIf="i < 4"/>
+
+
 				</div>
         </ng-container>
         <ng-container  *ngIf="_notification.length  == 1">
@@ -77,7 +77,7 @@
                 <h3>No Notfications Available</h3>
               </div>
         </ng-container>
-         <button class="btn custom_btn btn-block btn-sm" *ngIf="_notification.length > 4" (click)="gotoNotifications(0,'D')">Show All</button>
+         <button class="btn custom_btn btn-block btn-sm" *ngIf="_show_btn" (click)="gotoNotifications(0,'D')">Show All</button>
 			</div>
 		</li>
 		<li class="active dropdown">
@@ -113,7 +113,7 @@
 
 			</div>
 
-			</li>
+		</li>
 
 		</ul>
 
@@ -283,24 +283,15 @@
              </div>
           </mat-tab>
           <mat-tab label="Responsibilities">
-           <p class="m-5">
-               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-               Laborum voluptatum voluptatibus enim perspiciatis soluta
-               recusandae, fugit repudiandae consequatur, ratione ipsum dolores commodi!
-               Doloremque eius veritatis vero. Tempore velit repudiandae ipsa architecto
-                mollitia facilis cumque debitis quasi voluptatem. Praesentium optio aliquam
-                quae ducimus ex ipsa voluptates, quidem quaerat commodi iusto nemo amet, est placeat.
-                Nisi adipisci doloremque vel magni deserunt quae voluptas eius dolorem, qui quia repellat
-                 rerum error sunt, autem, fuga possimus ad ab! Placeat, maxime error alias ratione quam
-                  illum facere rerum? Laborum laboriosam cum autem eum sunt optio pariatur aliquam
-                   perferendis harum delectus. Numquam, itaque sapiente. Soluta illum deserunt debitis
-                    quaerat praesentium aperiam aliquid omnis tenetur exercitationem earum laboriosam
-                    nostrum impedit id sit delectus, quia unde nihil vitae pariatur rem. Distinctio in
-                     mollitia, quam molestiae praesentium consequuntur at rerum eius reprehenderit? Quae
-                     architecto repudiandae blanditiis repellat porro ipsum ad, reiciendis alias
-                     temporibus ut non cum atque quia voluptas?
+            <ng-container hidden="_roles_responsibility ==''">
+              <div #roles class="m-3"></div>
+            </ng-container>
+            <ng-container *ngIf="_roles_responsibility ==''">
+                <h3 class="m-3 text-center">
+                  Not Available Yet!!
+                </h3>
+            </ng-container>
 
-           </p>
           </mat-tab>
         </mat-tab-group>
 			  </div>

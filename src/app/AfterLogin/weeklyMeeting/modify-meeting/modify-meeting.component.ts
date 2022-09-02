@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.service';
 import { map } from 'rxjs/operators';
 import { global_url_test } from 'src/app/url';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-modify-meeting',
@@ -22,6 +23,7 @@ export class ModifyMeetingComponent implements OnInit {
     private activatedRoute:ActivatedRoute,
     private api_call: VirtualEmergencyService,
     private datePipe: DatePipe,
+    private spinner:NgxSpinnerService,
     private router:Router,
     private toastr:ToastrManager) {
       this.type = atob(this.activatedRoute.snapshot.params.type)
@@ -84,6 +86,7 @@ export class ModifyMeetingComponent implements OnInit {
     //End
   }
   submit(type:any){
+    this.spinner.show();
     const formdata = new FormData();
     formdata.append('id',this.weeklyForm.value.id);
     formdata.append('inc_id',this.weeklyForm.value.inc_id);
@@ -103,27 +106,47 @@ export class ModifyMeetingComponent implements OnInit {
     formdata.append('file',this.weeklyForm.value.file_path);
     this.api_call.global_service(1,'/meeting',formdata).subscribe((res:any) =>{
           if(res.suc > 0){
+             this.spinner.hide();
               this.toastr.successToastr('Submited Successfully','');
               this.router.navigate(['/meeting']);
           }
           else{
+            this.spinner.hide();
              this.toastr.successToastr('Submit not possible','');
           }
     })
+
   }
   selectFile(event:any){
-        this.weeklyForm.patchValue({
-          file_path:event ? event.target.files[0] : ''
-        })
-        if(event){
-          var reader = new FileReader();
-          reader.onload = () => {
-            this._file = reader.result;
-          };
-          reader.readAsDataURL(event.target.files[0]);
+        if(event.target.files.length > 0){
+          if(event.target.files[0].type != 'image/png'
+          &&
+          event.target.files[0].type != 'image/jpg'
+          &&
+          event.target.files[0].type != 'image/jpeg'){
+             this.toastr.errorToastr('Please Select jpeg or jpg ,png file','');
+             this.weeklyForm.patchValue({
+              file:null,
+              file_path: ''
+             })
+             this._file = '';
+          }
+          else{
+            this.weeklyForm.patchValue({
+              file_path: event.target.files[0]
+            })
+            var reader = new FileReader();
+            reader.onload = () => {
+              this._file = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+          }
         }
         else{
-          this._file = ''
+          this._file = '';
+          this.weeklyForm.patchValue({
+            file_path: ''
+          })
         }
   }
 }
