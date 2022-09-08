@@ -144,7 +144,6 @@ export class HeaderComponent implements OnInit {
     this.emergencyservice.global_service('1','/log_out',dt).subscribe(data=>{
     })
     localStorage.clear();
-    localStorage.setItem('_u_login','false');
     this.router.navigate(['/login']);
   }
   show_pass(_type:any){

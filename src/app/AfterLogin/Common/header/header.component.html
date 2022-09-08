@@ -15,8 +15,25 @@
 			<li class="nameCl locationCl active dropdown"  >
         <strong >Name:</strong>
         <span #tooltip="matTooltip" matTooltip="{{Inc_Name}}">{{(Inc_Name.length > 20 )? (Inc_Name | slice:0:18)+'..':(Inc_Name)}}</span>
+        <a #tooltip="matTooltip" [matMenuTriggerFor]="menu"  matTooltip="click to preview all incident list"  *ngIf="_activeIncBackup.length > 1" ><mat-icon class="customArrow">arrow_downward</mat-icon></a>
+        <mat-menu #menu="matMenu" xPosition="before">
 
-        <a #tooltip="matTooltip"  matTooltip="click to preview all incident list"  data-toggle="dropdown" *ngIf="_activeIncBackup.length > 1" aria-haspopup="true" role="button" aria-expanded="false"><mat-icon class="customArrow">arrow_downward</mat-icon></a>
+          <mat-list>
+            <div mat-subheader class="text-success">
+              <mat-icon >done</mat-icon>
+              {{_selected_Inc}}
+              <mat-icon  class="text-danger" *ngIf="_max_id.inc_no == localStorageAlice.getItem('Inc_No')">beenhere</mat-icon>
+            </div>
+            <mat-list-item   *ngFor="let activeInc of _activeInc;let i=index" #tooltip="matTooltip" matTooltip="Select {{activeInc.inc_name}}" (click)="active_incident(activeInc.inc_name,activeInc.inc_no,activeInc.id)">
+
+              <mat-icon mat-list-icon class="text-danger" *ngIf='_max_id.inc_no == activeInc.inc_no'>beenhere</mat-icon>
+                <div mat-line>{{activeInc.inc_name}} ({{activeInc.inc_no}})</div>
+              </mat-list-item>
+
+         </mat-list>
+         </mat-menu>
+
+        <!-- <a #tooltip="matTooltip"  matTooltip="click to preview all incident list"  data-toggle="dropdown" *ngIf="_activeIncBackup.length > 1" aria-haspopup="true" role="button" aria-expanded="false"><mat-icon class="customArrow">arrow_downward</mat-icon></a>
 
       <div class="dropdown-menu dropdown-menu-end dropdownActive p-3" aria-labelledby="navbarDropdown">
          <ul class="list-unstyled" *ngIf="_selected_Inc !=''">
@@ -36,7 +53,7 @@
                 {{activeInc.inc_name}} ({{activeInc.inc_no}})</small>
             </li>
           </ul>
-          </div>
+          </div> -->
       </li>
 			</ul>
 			<ul class="topinsidentData2 topinsidentData2_2">

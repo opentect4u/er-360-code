@@ -99,6 +99,8 @@ export class casualtyGrid{
   //End//
 })
 export class BoardComponent implements OnInit, OnDestroy {
+  afterSubmit:boolean=false;
+
   _active_flag: any = localStorage.getItem('active_flag');
   @ViewChild('myModalClose') modalClose!: ElementRef;
   @ViewChild('logForm') logForm!: NgForm;
@@ -209,6 +211,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   submit(v: Form) {
+    this.afterSubmit = true;
     var counter = 0;
     this.check_respond = '';
     if (this.id_create == 'inc_create') {
@@ -260,11 +263,14 @@ export class BoardComponent implements OnInit, OnDestroy {
               );
               this.Post_notification(post_notification);
               setTimeout(() => {
+                //  this.afterSubmit = false;
                 this.SetIncStatus(localStorage.getItem('Inc_id'));
                 this.toastr.successToastr('Submitted Successfully');
                 this.modalClose.nativeElement.click();
               }, 500);
             } else {
+              this.afterSubmit = false;
+
               this.toastr.errorToastr('Failed to submit', 'Error!', {
                 position: 'top-center',
                 animate: 'slideFromTop',
@@ -273,6 +279,7 @@ export class BoardComponent implements OnInit, OnDestroy {
             }
           },
           (error) => {
+            this.afterSubmit = false;
             this.toastr.errorToastr(
               'Something Went Wrong,Please Try Again After Some Time',
               'Error!',
@@ -285,6 +292,8 @@ export class BoardComponent implements OnInit, OnDestroy {
           }
         );
       } else {
+         this.afterSubmit = true;
+
         this.toastr.errorToastr(
           'Some of  fields are empty, please fill them up',
           ''
@@ -317,6 +326,7 @@ export class BoardComponent implements OnInit, OnDestroy {
           .subscribe(
             (data) => {
               this.check_respond = data;
+
               if (this.check_respond.suc == 1) {
                 if (
                   this.get_incident_details_after_save.length ==
@@ -335,11 +345,13 @@ export class BoardComponent implements OnInit, OnDestroy {
                 this.Post_notification(post_notification);
                 clearTimeout(this.vessel_status);
                 setTimeout(() => {
+                  // this.afterSubmit = false;
                   this.SetVesselStatus(localStorage.getItem('Inc_id'));
                   this.toastr.successToastr('Submitted Successfully', '');
                   this.modalClose.nativeElement.click();
                 }, 500);
               } else {
+                this.afterSubmit = false;
                 this.toastr.errorToastr('Failed to submit', 'Error!', {
                   position: 'top-center',
                   animate: 'slideFromTop',
@@ -348,20 +360,22 @@ export class BoardComponent implements OnInit, OnDestroy {
               }
             },
             (error) => {
-              this.toastr.errorToastr(
-                'Something Went Wrong Please Try Again After Some Time',
-                'Error!',
-                {
-                  position: 'top-center',
-                  animate: 'slideFromTop',
-                  toastTimeout: 5000,
-                }
-              );
+            this.afterSubmit = false;
+              // this.toastr.errorToastr(
+              //   'Something Went Wrong Please Try Again After Some Time',
+              //   'Error!',
+              //   {
+              //     position: 'top-center',
+              //     animate: 'slideFromTop',
+              //     toastTimeout: 5000,
+              //   }
+              // );
             }
           );
       } else {
+         this.afterSubmit = true;
         this.toastr.errorToastr(
-          'Some of  fields are empty, please fill them up',
+          'Some of fields are empty, please fill them up',
           ''
         );
       }
@@ -410,18 +424,23 @@ export class BoardComponent implements OnInit, OnDestroy {
               this.Post_notification(post_notification);
               setTimeout(() => {
                 this.setHelicopterStatus(localStorage.getItem('Inc_id'));
+                //  this.afterSubmit = false;
                 this.toastr.successToastr('Submitted Successfully', '');
                 this.modalClose.nativeElement.click();
               }, 500);
             } else {
+              this.afterSubmit = false;
               this.toastr.errorToastr('Failed to submit', 'Error!', {
                 position: 'top-center',
                 animate: 'slideFromTop',
                 toastTimeout: 5000,
               });
             }
+          },err=>{
+           this.afterSubmit = true;
           });
       } else {
+        this.afterSubmit = false;
         this.toastr.errorToastr(
           'Some of  fields are empty, please fill them up',
           ''
@@ -436,6 +455,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               this.vesselArray[i].casualtygrid[j].location == '' ||
               this.vesselArray[i].casualtygrid[j].time == '' )
               {
+                 this.afterSubmit = false;
                 this.toastr.errorToastr(
                   'Some of  fields are empty, please fill them up',
                   ''
@@ -479,12 +499,15 @@ export class BoardComponent implements OnInit, OnDestroy {
                   this.modalClose.nativeElement.click();
                 }, 500);
               } else {
+               this.afterSubmit = false;
                 this.toastr.errorToastr('Failed to submit', 'Error!', {
                   position: 'top-center',
                   animate: 'slideFromTop',
                   toastTimeout: 5000,
                 });
               }
+            },err => {
+              this.afterSubmit = false;
             }
           );
 
@@ -536,6 +559,7 @@ export class BoardComponent implements OnInit, OnDestroy {
                   this.modalClose.nativeElement.click();
                 }, 500);
               } else {
+               this.afterSubmit = false;
                 this.toastr.errorToastr('Failed to submit', 'Error!', {
                   position: 'top-center',
                   animate: 'slideFromTop',
@@ -544,6 +568,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               }
             },
             (error) => {
+              this.afterSubmit = false;
               this.toastr.errorToastr(
                 'Something Went Wrong,Please Try Again After Some Time',
                 'Error!',
@@ -556,6 +581,7 @@ export class BoardComponent implements OnInit, OnDestroy {
             }
           );
       } else {
+        this.afterSubmit = false;
         this.toastr.errorToastr(
           'Some of  fields are empty, please fill them up',
           ''
@@ -607,6 +633,7 @@ export class BoardComponent implements OnInit, OnDestroy {
                   this.modalClose.nativeElement.click();
                 }, 500);
               } else {
+              this.afterSubmit = false;
                 this.toastr.errorToastr('Failed to submit', 'Error!', {
                   position: 'top-center',
                   animate: 'slideFromTop',
@@ -615,20 +642,22 @@ export class BoardComponent implements OnInit, OnDestroy {
               }
             },
             (error) => {
-              this.toastr.errorToastr(
-                'Something Went Wrong,Please Try Again After Some Time',
-                'Error!',
-                {
-                  position: 'top-center',
-                  animate: 'slideFromTop',
-                  toastTimeout: 5000,
-                }
-              );
+              this.afterSubmit = false;
+              // this.toastr.errorToastr(
+              //   'Something Went Wrong,Please Try Again After Some Time',
+              //   'Error!',
+              //   {
+              //     position: 'top-center',
+              //     animate: 'slideFromTop',
+              //     toastTimeout: 5000,
+              //   }
+              // );
             }
           );
         // //this.vesselArray);
 
       } else {
+        this.afterSubmit = false;
         this.toastr.errorToastr(
           'Some of  fields are empty, please fill them up',
           ''
@@ -680,9 +709,18 @@ export class BoardComponent implements OnInit, OnDestroy {
                 this.modalClose.nativeElement.click();
               }, 2000);
             } else {
+               this.afterSubmit = false;
+               this.toastr.errorToastr('Failed to submit', 'Error!', {
+                position: 'top-center',
+                animate: 'slideFromTop',
+                toastTimeout: 5000,
+              });
             }
+          },err=>{
+            this.afterSubmit = false;
           });
       } else {
+        this.afterSubmit = false;
         this.toastr.errorToastr(
           'Some of  fields are empty, please fill them up',
           ''
@@ -696,6 +734,7 @@ export class BoardComponent implements OnInit, OnDestroy {
              this.vesselArray[i].people == '' || this.vesselArray[i].reputation == '' ||
              this.vesselArray[i].op_period_from == '' ||  this.vesselArray[i].op_period_to == '')
              {
+              this.afterSubmit = false;
               this.toastr.errorToastr(
                 'Some of  fields are empty, please fill them up',
                 ''
@@ -703,8 +742,6 @@ export class BoardComponent implements OnInit, OnDestroy {
               return;
              }
       }
-      console.log(this.vesselArray);
-
       var inc_objectives = {
         inc_name: localStorage.getItem('Inc_name'),
         inc_id: localStorage.getItem('Inc_id'),
@@ -713,6 +750,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       };
       this.emergencyservice
       .global_service('1','/inc_obj',inc_objectives).subscribe((res:any) =>{
+        // this.afterSubmit = false;
         if (res.suc > 0) {
           clearTimeout(this.inc_objective_status);
           setTimeout(() => {
@@ -729,12 +767,17 @@ export class BoardComponent implements OnInit, OnDestroy {
           // this.Post_notification(post_notification);
         }
         else{
+          this.afterSubmit = false;
           this.toastr.errorToastr('Something wrong happen!! please try again later','');
         }
+      },err=>{
+        this.afterSubmit = false;
       })
     }
   }
   set_modal_for_create(flag: any) {
+    this.afterSubmit = false;
+
     this.id_create = flag;
     //  this.get_incident_details.length=0;
     if (this.id_create == 'inc_create') {
@@ -876,6 +919,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
       this.vesselArray.length = 0;
       this.get_incident_details_after_save = this.get_evacuation_status;
+
       //.log(this.get_incident_details_after_save);
         //this.get_incident_details_after_save);
 
@@ -1434,6 +1478,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .pipe(map((x: any) => x.msg))
       .subscribe((data) => {
       //data)
+      console.log(data);
         this.vesselArray.length = 0;
         this.get_incident_details_after_save = data;
         if (this.get_incident_details_after_save.length > 0) {
@@ -1451,6 +1496,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               casualtygrid: this.get_incident_details_after_save[i].casualtygrid
             }
             this.vesselArray.push(this.vesselDynamic);
+
           }
         } else {
             this.vesselDynamic = {
@@ -1462,6 +1508,8 @@ export class BoardComponent implements OnInit, OnDestroy {
             this.vesselArray.push(this.vesselDynamic);
         }
         //this.vesselArray);
+        console.log(this.vesselArray);
+
 
       });
   }
@@ -1593,6 +1641,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
     dialogref.afterClosed().subscribe((dt) => {
       if (dt == 1) {
+        console.log(details);
+
         if(details!='0'){
           this.emergencyservice
           .global_service(

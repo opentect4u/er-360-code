@@ -269,6 +269,7 @@
 <div class="modal modalCustomeBoard fade" id="create_incident_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
     <div class="modal-dialog modal_dialogCustomeBoard modal-dialog-centered modal-dialog-zoom  modal-xl" role="document">
       <div class="modal-content">
+
                                 <!--Modal header -->
         <!-- Incident Status -->
         <div class="modal-header" *ngIf="this.id_create=='inc_create'">
@@ -745,7 +746,7 @@
                               </div>
                               <div class="col-1 d-flex justify-content-center align-items-center">
                                 <a *ngIf="j > 0"  class="customIcon" type="button"
-                              (click)="deleteSubRow(i,j,5,vesselArray[i].id)"
+                              (click)="deleteSubRow(i,j,5,vesselArray[i].casualtygrid[j].id)"
                               ><i class="fa fa-minus fa-2x"></i>
                               </a>
                               </div>
@@ -991,10 +992,11 @@
             </div>
                                       <!-- End -->
         <div class="modal-footer">
-          <div class="btnSubmitSec ">
-          <input  type="submit" class="btn btn-info" id="incident_status" value="Save">
+          <div class="btnSubmitSec">
+          <input [disabled]="afterSubmit" type="submit" class="btn btn-info" id="incident_status" [value]="afterSubmit ? 'Updating ...' :  'Save' ">
         </div>
         </div>
+
         </form>
 
       </div>
