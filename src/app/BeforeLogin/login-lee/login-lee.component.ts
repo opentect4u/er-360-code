@@ -21,12 +21,15 @@ export class LoginLEEComponent implements OnInit {
   submitForm(v:any){
        this.spinner.show();
        this.emergencyservice.global_service('1','/login',v).subscribe(data=>{
+        console.log(data);
+
         this.check_response=data;
        if(this.check_response.suc==1){
         localStorage.setItem('Email',this.check_response.msg[0].email);
         localStorage.setItem('Employee_id',this.check_response.msg[0].employee_id);
         localStorage.setItem('_SHOW_POPUP','0');
         if(this.check_response.msg[0].first_login > 0){
+        localStorage.setItem('_u_login','true');
         localStorage.setItem('Emp_name',this.check_response.msg[0].emp_name);
         localStorage.setItem('Emp_status',this.check_response.msg[0].emp_status);
         localStorage.setItem('User_type',this.check_response.msg[0].user_type);
@@ -34,10 +37,8 @@ export class LoginLEEComponent implements OnInit {
         localStorage.setItem('_local_sel_id','0');
         localStorage.setItem('_emp_id',this.check_response.msg[0].id);
         localStorage.setItem('app_flag',this.check_response.msg[0].approval_flag);
-        localStorage.setItem('_u_login','true');
         this.spinner.hide();
         this.router.navigate(['/dashboard']);
-
         }
         else{
           this.spinner.hide();
@@ -51,4 +52,8 @@ export class LoginLEEComponent implements OnInit {
     })
   }
 
+  route(){
+    this.router.navigate(['/dashboard']);
+
+  }
 }

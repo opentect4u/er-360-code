@@ -304,9 +304,13 @@ import { ModifyMediaComponent } from './AfterLogin/Media_Module/modify-media/mod
 import { OilspillComponent } from './AfterLogin/oilspill/oilspill.component';
 import { MeetingDashboardComponent } from './AfterLogin/weeklyMeeting/meeting-dashboard/meeting-dashboard.component';
 import { ModifyMeetingComponent } from './AfterLogin/weeklyMeeting/modify-meeting/modify-meeting.component';
-import { CKEditorModule } from 'ng2-ckeditor';
-import { AuthGuard } from './Gaurds/auth.guard';
+import { AGaurdGuard } from './Gaurds/a-gaurd.guard';
+import { UGaurdGuard } from './Gaurds/u-gaurd.guard';
+import { LoginGuard } from './Gaurds/login.guard';
 import { AdminAuthGuard } from './Gaurds/admin-auth.guard';
+import { CKEditorModule } from 'ng2-ckeditor';
+import { InvestigationComponent } from './AfterLogin/IncInvestigationReport/investigation/investigation.component';
+import { ModifyInvestigationComponent } from './AfterLogin/IncInvestigationReport/modify-investigation/modify-investigation.component';
 //End//
 @NgModule({
   //It is the container section of the NgModule where all the commponents that are created is going to be imported here.
@@ -393,7 +397,9 @@ import { AdminAuthGuard } from './Gaurds/admin-auth.guard';
     ModifyMediaComponent,
     OilspillComponent,
     MeetingDashboardComponent,
-    ModifyMeetingComponent
+    ModifyMeetingComponent,
+    InvestigationComponent,
+    ModifyInvestigationComponent
     // SearchFilterPipe
   ],
   //It is the container section of the NgModule where all the modules of packages that are installed is going to be imported here.
@@ -440,14 +446,17 @@ import { AdminAuthGuard } from './Gaurds/admin-auth.guard';
     FormsModule,
     CKEditorModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CKEditorModule
   ],
  // A provider is an instruction to the Dependency Injection system on how to obtain a value for a dependency.
   providers: [DatePipe, // It is used for transforming datetime in the desire format.e.x-(dd-MM-YYYYTHH:mm) -> (YYYY-MM-dd HH:mm)
     {provide:HTTP_INTERCEPTORS,useClass:GlobalErrorHandlingInterceptor,multi:true}, // It is used for handling global error from server
     {provide:LocationStrategy, useClass:HashLocationStrategy}, // It is used for injecting hash in the route url.
-    AuthGuard,AdminAuthGuard
+    UGaurdGuard,AGaurdGuard,LoginGuard,AdminAuthGuard
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

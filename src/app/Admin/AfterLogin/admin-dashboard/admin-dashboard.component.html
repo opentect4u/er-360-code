@@ -310,6 +310,7 @@
                     <h3>Vessel Details</h3>
                 </div>
                 <div class="col-12">
+                  <mat-progress-bar mode="indeterminate" *ngIf="show_spinner"></mat-progress-bar>
                 <div class="tabs-container clearfix">
                     <ul class="tabs-menu">
                     <li [ngClass]="status_mode=='2' ? 'active' : ''" (click)="status_type('2')"><a>Vessel Status</a></li>
@@ -323,6 +324,7 @@
 
                     </ul>
                     <div [ngClass]="statusType.length > 0 ? 'tab' : 'tab noDataFound'">
+
                             <div class="pane">
                             <div class="tab-content" >
                                     <ng-container *ngIf="this.status_mode=='2'">
@@ -339,6 +341,7 @@
                                       </ul>
                                     </ng-container>
                                     <ng-container *ngIf="this.status_mode=='3'">
+
                                       <ul *ngFor="let statustype of statusType; let i=index">
 
                                         <li> <h4 class="customHeader">{{statustype.call_sign}} ({{statustype.heli_type}})</h4>

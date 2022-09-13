@@ -37,7 +37,10 @@ export class UserInfoComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  getUsers(_e:any){this.putdata(_e);}
+  getUsers(_e:any){
+    console.log(_e);
+
+    this.putdata(_e);}
   setHoursMinutes(min:any){
     var hour = Math.floor(Number(min) / 60);
     var minutes = Number(min) - (hour * 60);

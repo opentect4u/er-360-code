@@ -142,6 +142,8 @@ export class HeaderComponent implements OnInit {
       user:localStorage.getItem('Email')
     }
     this.emergencyservice.global_service('1','/log_out',dt).subscribe(data=>{
+      console.log(data);
+
     })
     localStorage.clear();
     this.router.navigate(['/login']);

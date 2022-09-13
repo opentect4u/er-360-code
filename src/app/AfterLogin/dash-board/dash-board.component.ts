@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
@@ -64,7 +64,6 @@ export class DashBoardComponent implements OnInit {
     private emergencyservice:VirtualEmergencyService,
     private router:Router,
     private spinner:NgxSpinnerService) {
-
     }
   ngOnInit(): void {
     this.emergencyservice.joinRoom({user:localStorage.getItem('Emp_name'),room:this.global_inc,emp_code:localStorage.getItem('Employee_id')});}
@@ -149,7 +148,7 @@ getCasualtyStatus(_id:any){
       this.emergencyservice.emit('casualty',_id);
        this.emergencyservice.listen('casualty').pipe(map((x:any) => x.msg),take(2)).subscribe(res=>{
         this.get_casualty_status.length=0;
-        console.log(res);
+        //.log(res);
 
         this._casualty_observeable =  from(res).pipe(take(2)).subscribe(dt =>{
         this.get_casualty_status.push(dt)
@@ -206,7 +205,7 @@ getChat(_Id:any){
    this.checkIfHasCHild();
   this.emergencyservice.global_service('0', '/oldMessage', 'min='+this._min+'&max=5'+'&id='+localStorage.getItem('Inc_id')).subscribe(data => {
     //data);
-    console.log(data)
+    //.log(data)
      this.storageArray.length = 0;
      this.storageArray = data;
      this.storageArray = this.storageArray.msg;
@@ -279,7 +278,7 @@ getChat(_Id:any){
     if($('.verticalScroll').scrollTop() == 0){
       this._min += 5;
       this.emergencyservice.global_service('0', '/oldMessage', 'min='+this._min+'&max=5'+'&id='+_Id).subscribe(data => {
-       console.log(data)
+       //.log(data)
 
         this.storageArray.length = 0;
         this.storageArray = data;
@@ -366,7 +365,7 @@ getIncidentObjectives(_id:any){
   // this.emergencyservice.global_service('0', '/inc_obj', 'inc_id=' + _id).pipe(map((x:any) => x.msg)).subscribe(res=>{
   //   this.get_Incident_objectives.length = 0;
   //   from(res).pipe(take(5)).subscribe(dt =>{
-  //     console.log(res);
+  //     //.log(res);
   //     this.get_Incident_objectives.push(dt);
   //   })
   //   })
@@ -374,7 +373,7 @@ getIncidentObjectives(_id:any){
   this.emergencyservice.listen('inc_obj').pipe(map((x:any) => x.msg)).subscribe(res=>{
       this.get_Incident_objectives.length = 0;
       from(res).pipe(take(5)).subscribe(dt =>{
-        console.log(res);
+        //.log(res);
         this.get_Incident_objectives.push(dt);
       })
       })
@@ -407,7 +406,7 @@ openDialog(event:any){
     const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
     dialogref.afterClosed().subscribe(dt =>{
       localStorage.setItem('_SHOW_POPUP','1')
-      console.log(localStorage.getItem('_SHOW_POPUP'));
+      //.log(localStorage.getItem('_SHOW_POPUP'));
     })
 }
 getRolesResponsibility(event:any){
@@ -415,4 +414,5 @@ getRolesResponsibility(event:any){
     this.openDialog(event);
   }
 }
+
 }

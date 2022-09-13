@@ -84,262 +84,279 @@ import { ForgotPasswordComponent } from './BeforeLogin/login-lee/ForgetPassword/
 import { LoginLEEComponent } from './BeforeLogin/login-lee/login-lee.component';
 import { NotificationComponent } from './CommonDialogAlert/Notification/Notification.component';
 import { PageNotFoundComponent } from './Error_pages/page-not-found/page-not-found.component';
-import { AuthGuard } from './Gaurds/auth.guard';
+import { UGaurdGuard } from './Gaurds/u-gaurd.guard';
+import { AGaurdGuard } from './Gaurds/a-gaurd.guard';
+import { LoginGuard } from './Gaurds/login.guard';
 import { AdminAuthGuard } from './Gaurds/admin-auth.guard';
+import { ModifyInvestigationComponent } from './AfterLogin/IncInvestigationReport/modify-investigation/modify-investigation.component';
+import { InvestigationComponent } from './AfterLogin/IncInvestigationReport/investigation/investigation.component';
 
 const routes: Routes = [
   /** Routing for BeforeLoginDashboardComponent (src/app/BeforeLogin/befor-login-dashboard) => It is the landing page of ER-360 Application **/
   {
     path:'',
-    component:BeforeLoginDashboardComponent
+    component:BeforeLoginDashboardComponent,
+    canActivate:[LoginGuard]
+
   },
   /**                                                 END                                                                                   **/
 
   {
     path:'userinfo',
     component:UserInfoComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'login',
-    component:LoginLEEComponent
+    component:LoginLEEComponent,
+    canActivate:[LoginGuard]
   },
   {
     path:'dashboard',
     component:DashBoardComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'ActivationModule',
     component:ActivationModuleComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'IncidentModule',
     component:IncidentModuleComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'AddIncident',
     component:AddIncidentComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'EditIncident/:id',
     component:EditIncidentComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'livelog',
     component:LiveLogComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Board',
     component:BoardComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Repository/files/:cat_id/:cat_name',
     component:RepositoryComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'FormsCheckList',
     component:FormsChecklistComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
+  {
+       path:'investigationRPT/:id',
+       component:ModifyInvestigationComponent,
+       canActivate:[UGaurdGuard]
+  },
+  {
+    path:'investigationRPT',
+    component: InvestigationComponent,
+    canActivate:[UGaurdGuard]
+},
   {
     path:'Audio_Video',
     component:AudioVideoConferenceComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Log_Sheet',
     component:LogSheetComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Call-Logger',
     component:CallLoggerComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Report_Data_Pool',
     component:ReportDatepoolComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
    //Dashboard page
   {
     path:'admin/dashboard',
     component:AdminDashboardComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
    // Offshore Dashboard page
 
   {
     path:'admin/offshore',
     component:AdminOffshoreComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   }
    // Offshore Add page
   ,{
     path:'admin/offshore/add',
     component:AddAdminOffshoreComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   // Offshore Edit page
   {
     path:'admin/offshore/edit/:id',
     component:EditAdminOffshoreComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   //Admin Incident Page
   {
     path:'admin/incident',
     component:AdminIncidentComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Incident edit Page
   {
     path:'admin/incident/edit/:id',
     component:EditAdminIncidentComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Incident Add Page
   {
     path:'admin/incident/add',
     component:AddAdminIncidentComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Tier Page
   {
     path:'admin/tier',
     component:AdminTierComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Tier add Page
   {
     path:'admin/tier/add',
     component:AddAdminTierComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Tier edit Page
   {
     path:'admin/tier/edit/:id',
     component:EditAdminTierComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
    //Admin Position Page
    {
     path:'admin/position',
     component:AdminPositionComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Position add Page
   {
     path:'admin/position/add',
     component:AddAdminPositionComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Position edit Page
   {
     path:'admin/position/edit/:id',
     component:EditAdminPositionComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
    //Admin Department Page
    {
     path:'admin/department',
     component:AdminDepartmentComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Department add Page
   {
     path:'admin/department/add',
     component:AddAdminDepartmentComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Department edit Page
   {
     path:'admin/department/edit/:id',
     component:EditAdminDepartmentComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Employee Page
   {
     path:'admin/employee',
     component:AdminEmployeeComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Employee add Page
   {
     path:'admin/employee/add',
     component:AddAdminEmployeeComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Employee edit Page
   {
     path:'admin/employee/edit/:id',
     component:EditAdminEmployeeComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   //Admin Team Page
   {
     path:'admin/team',
     component:AdminTeamComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   //Admin Team add Page
   {
     path:'admin/team/add',
     component:AddAdminTeamComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   //Admin Team edit Page
   {
     path:'admin/team/edit/:id',
     component:EditAdminTeamComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   //Admin Team AssignTeam Page
   {
     path:'admin/Team/assignteam',
     component:AssignTeamComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   //Admin Team Member add Page
   {
     path:'admin/Team/addmember',
     component:AddTeamMemberComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
    //For Adding Team Status view
    {
     path:'admin/Team/Status/add',
     component:AddTeamStatusComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
    //For Adding Report Data Pool Dashboard
   {
     path:'admin/reportdatapoolDashboard',
     component:ReportDataPooldashboardComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
      //For Adding Report Data Pool Dashboard
@@ -350,15 +367,20 @@ const routes: Routes = [
   {
     path:'admin/User_Status',
     component:UserStatusComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   {
     path:'admin',
-    component:AdminLoginComponent
+    component:AdminLoginComponent,
+    canActivate:[AdminAuthGuard]
+
   },
   {
     path:'admin/forgetpassword',
-    component:ForgetPasswordForAdminComponent
+    component:ForgetPasswordForAdminComponent,
+    canActivate:[AdminAuthGuard]
+
+
   },
 
   // {
@@ -368,59 +390,59 @@ const routes: Routes = [
   {
     path:'Editinc',
     component:EditDashbaordComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
 
   },
   {
     path:'EditApprove',
     component:ApproveIncidentComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   }
   ,{
     path:"category",
     component:CategoryComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   {
     path:'addCategory',
     component:CreateCategoryComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   {
     path:'uploadforms',
     component:UploadsComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   {
     path:'UploadDashBoard',
     component:UploaddashboardComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
   },
   {
     path:'formchecklist/files/:id',
     component:FormschecklistfilesComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
 
   },
   {
     path:'AddCallLog/:id',
     component:AddCallLoggerComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Conference/:room_id/:name/:email',
     component:CreateMeetingComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'addLogSheet',
     component:AddlogsheetComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'EditLogSheet/:id/:flag',
     component:EditLogSheetComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'firstloggedin',
@@ -433,18 +455,18 @@ const routes: Routes = [
   {
     path:'addRepository',
     component:AddRepositoryComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'Repo_dashboard',
     component:RepoDashboardComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   {
     path:'Add_Repo',
     component:AddRepoComponent,
-    canActivate:[AdminAuthGuard]
+    canActivate:[AGaurdGuard]
 
   },
   {
@@ -466,52 +488,52 @@ const routes: Routes = [
   {
     path:'add_handover',
     component:HandoverComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'handover',
     component:HandOverDashboardComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'lesson_learnt',
     component:LessonDashboardComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'add_lesson_learnt/:id',
     component:AddLessonLearntComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'media',
     component:MediaComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
        path:'media/:type/:id',
        component:ModifyMediaComponent,
-       canActivate:[AuthGuard]
+       canActivate:[UGaurdGuard]
   },
   {
     path:'oilSpill',
     component:OilspillComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'meeting',
     component:MeetingDashboardComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'meeting/:id/:type',
     component:ModifyMeetingComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
   },
   {
     path:'weather',
     component:WeatherComponent,
-    canActivate:[AuthGuard]
+    canActivate:[UGaurdGuard]
    },
   {
     path:"**",
