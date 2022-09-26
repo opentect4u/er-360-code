@@ -154,7 +154,7 @@
                                        <img src="/assets/images/pdf.svg" *ngIf="files.file_ext=='pdf'">
                                        <img src="/assets/images/png.svg" *ngIf="files.file_ext=='png'">
                                        <img src="/assets/images/jpg.svg" *ngIf="files.file_ext=='jpg'">
-                                       <img src="/assets/images/ppt.svg" *ngIf="files.file_ext=='ppt'"></a>
+                                       <img src="/assets/images/pptx.webp" *ngIf="files.file_ext=='ppt'"></a>
                                    </div>
                                    <a (click)="downloadfile(files.form_path,files.file_name)" type="button" #Tooltip="matTooltip" matTooltip="Download {{files.file_name}}" class="file-download"><i class="fa fa-download"></i></a>
                                    <div class="file-man-title">
@@ -203,7 +203,7 @@
                              <img src="/assets/images/pdf.svg"   height="40px" width="40px" *ngIf="row.file_ext=='pdf'">
                              <img src="/assets/images/png.svg"  height="40px" width="40px" *ngIf="row.file_ext=='png'">
                              <img src="/assets/images/jpg.svg"  height="40px" width="40px" *ngIf="row.file_ext=='jpg'">
-                             <img src="/assets/images/ppt.svg"  height="40px" width="40px" *ngIf="row.file_ext=='ppt'"></a>
+                             <img src="/assets/images/pptx.webp"  height="40px" width="40px" *ngIf="row.file_ext=='ppt'"></a>
                            </td>
                          </ng-container>
 

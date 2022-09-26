@@ -83,19 +83,19 @@ export class AddAdminEmployeeComponent implements OnInit {
         this.chk_existance[2].p_contact == 0 ? 'Personal contact number' : 'Employee id') + " already in use" , '',{position:'bottom-right',animate:'slideFromRight',toastTimeout:10000});
       }
     else{
-      this.emergencyservice.global_service('1','/employee',logForm).subscribe((data:any)=>{
-        if(data.suc==1){
-        this.spinner.hide();
-         this.route.navigate(['/admin/employee']).then(()=>{
-          this.toastr.successToastr('Employee Added Successfully','',{position:'bottom-right',animate:'slideFromRight',toastTimeout:7000});
-         });
-        }
-        else{
-        this.spinner.hide();
-          this.toastr.errorToastr('Something went wrong,Please try again later','',{position:'bottom-right',animate:'slideFromRight',toastTimeout:7000});
-        }
+      // this.emergencyservice.global_service('1','/employee',logForm).subscribe((data:any)=>{
+      //   if(data.suc==1){
+      //   this.spinner.hide();
+      //    this.route.navigate(['/admin/employee']).then(()=>{
+      //     this.toastr.successToastr('Employee Added Successfully','',{position:'bottom-right',animate:'slideFromRight',toastTimeout:7000});
+      //    });
+      //   }
+      //   else{
+      //   this.spinner.hide();
+      //     this.toastr.errorToastr('Something went wrong,Please try again later','',{position:'bottom-right',animate:'slideFromRight',toastTimeout:7000});
+      //   }
 
-      })
+      // })
     }
 
 

@@ -9,12 +9,12 @@
 			<div class="insidentDataCont" *ngIf="Inc_Name!= ''">
 			<ul class="topinsidentData2 topinsidentData2_1">
 			<li class="typeCl locationCl" #tooltip="matTooltip" matTooltip="{{Inc_type}}"><strong>Type:</strong>
-        {{(Inc_type.length > 20 ) ? (Inc_type | slice:0:18)+'..':(Inc_type)}}
+        {{(Inc_type.length > 26 ) ? (Inc_type | slice:0:24)+'..':(Inc_type)}}
 
       </li>
 			<li class="nameCl locationCl active dropdown"  >
         <strong >Name:</strong>
-        <span #tooltip="matTooltip" matTooltip="{{Inc_Name}}">{{(Inc_Name.length > 20 )? (Inc_Name | slice:0:18)+'..':(Inc_Name)}}</span>
+        <span #tooltip="matTooltip" matTooltip="{{Inc_Name}}">{{(Inc_Name.length > 26 )? (Inc_Name | slice:0:24)+'..':(Inc_Name)}}</span>
         <a #tooltip="matTooltip" [matMenuTriggerFor]="menu"  matTooltip="click to preview all incident list"  *ngIf="_activeIncBackup.length > 1" ><mat-icon class="customArrow">arrow_downward</mat-icon></a>
         <mat-menu #menu="matMenu" xPosition="before">
 
@@ -60,7 +60,7 @@
 			<li class="tierCl locationCl" #tooltip="matTooltip" matTooltip="{{tier}}"><strong>Tier:</strong> <span  [ngClass]="_initial_tier_id == '1' ? 'text-success' : _initial_tier_id == '2' ? 'text-warning' :  _initial_tier_id == '3' ? 'text-danger' : 'text-dark'">{{tier}}</span></li>
 			<li class="locationCl" #tooltip="matTooltip"
 			matTooltip="{{Inc_location}}"><strong>Location:</strong>
-      {{(Inc_location.length > 20 )? (Inc_location | slice:0:30)+'..':(Inc_location)}}
+      {{(Inc_location.length > 26 )? (Inc_location | slice:0:24)+'..':(Inc_location)}}
 
     </li>
 			</ul>
@@ -75,8 +75,29 @@
 
 		<ul class="topMenuRight">
 		<li class="userDrop dropdown">
-			<a  class="nav-link"   [matBadge]="_TOTAL_LENGTH_NOTIFICATION > 99 ? '99+' : _TOTAL_LENGTH_NOTIFICATION" matBadgeOverlap="false" matBadgeSize="medium" [matBadgeHidden]="_TOTAL_LENGTH_NOTIFICATION == 0" id="drop1" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></a>
-			<div class="dropdown-menu customDropdown">
+			<a  class="nav-link"  [matMenuTriggerFor]="menu_notification"   [matBadge]="_TOTAL_LENGTH_NOTIFICATION > 99 ? '99+' : _TOTAL_LENGTH_NOTIFICATION" matBadgeOverlap="false" matBadgeSize="medium" [matBadgeHidden]="_TOTAL_LENGTH_NOTIFICATION == 0" id="drop1" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></a>
+
+      <mat-menu #menu_notification="matMenu" xPosition="before">
+        <mat-list>
+          <div mat-subheader>Notifications   <button *ngIf="_show_btn" mat-button class="float-right" (click)="gotoNotifications(0,'D')">View  All <mat-icon>arrow_right_alt</mat-icon></button></div>
+          <ng-container *ngIf="_notification.length > 1">
+            <mat-list-item *ngFor="let notify of _notification;let i=index" (click)="gotoNotifications(notify.id,notify.activity)">
+              <img  mat-list-icon src="assets/images/no-user.png" alt="profile Img">
+              <div mat-line>{{notify.narration}}</div>
+            </mat-list-item>
+          </ng-container>
+          <ng-container   *ngIf="_notification.length == 1">
+            <div class="user">
+              <img src="assets/images/no_notification_bell_icon.png" alt="" >
+              <h3>No Notfications Available</h3>
+            </div>
+      </ng-container>
+
+        </mat-list>
+
+        </mat-menu>
+
+      <!-- <div class="dropdown-menu customDropdown">
         <ng-container *ngIf="_notification.length > 1">
 
           <div class="notifications-item" *ngFor="let notify of _notification;let i=index">
@@ -96,7 +117,7 @@
               </div>
         </ng-container>
          <button class="btn custom_btn btn-block btn-sm" *ngIf="_show_btn" (click)="gotoNotifications(0,'D')">Show All</button>
-			</div>
+			</div> -->
 		</li>
 		<li class="active dropdown">
 			<a  id="activId"  data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
@@ -262,7 +283,7 @@
                            <input type="hidden" name="emp_id" [(ngModel)]="Emp_id" class="form-control">
 
                   <label>Old Password</label>
-                  <input  [type]="_o_pass ? 'password' : 'text'"  class="form-control" name="old_pass" id="old_pass" #old_pass="ngModel" ngModel required>
+                  <input  [type]="_o_pass ? 'password' : 'text'"  class="form-control pr-4" name="old_pass" id="old_pass" #old_pass="ngModel" ngModel required>
                 <!-- <i class="toggle-password fa fa-eye-slash" style="cursor:pointer" (click)="show_pass('O')"></i> -->
                 <mat-icon (click)="show_pass('O')" class="toggle-password">remove_red_eye</mat-icon>
 
@@ -272,7 +293,7 @@
                 </div>
                 <div class="col-6">
                   <label>New Password</label>
-                  <input  [type]="_n_pass ? 'password' : 'text'" class="form-control" name="pass" id="pass" #pass="ngModel" ngModel required>
+                  <input  [type]="_n_pass ? 'password' : 'text'" class="form-control pr-4" name="pass" id="pass" #pass="ngModel" ngModel required>
                 <!-- <i class="toggle-newpassword fa fa-eye-slash" style="cursor:pointer" (click)="show_pass('N')"></i> -->
                 <mat-icon (click)="show_pass('N')" class="toggle-password">remove_red_eye</mat-icon>
 
@@ -283,7 +304,7 @@
 
                 <div class="col-6 mt-3">
                   <label>Confirm Password</label>
-                  <input   [type]="_c_pass ? 'password' : 'text'" class="form-control" name="conf_pass" id="conf_pass" #conf_pass="ngModel" ngModel required>
+                  <input   [type]="_c_pass ? 'password' : 'text'" class="form-control pr-4" name="conf_pass" id="conf_pass" #conf_pass="ngModel" ngModel required>
                   <mat-icon (click)="show_pass('C')" class="toggle-password">remove_red_eye</mat-icon>
 
                 <!-- <i class="toggle-confpassword fa fa-eye-slash" style="cursor:pointer" (click)="show_pass('C')"></i> -->
