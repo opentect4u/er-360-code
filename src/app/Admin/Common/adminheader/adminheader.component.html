@@ -1,4 +1,4 @@
-<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+<nav class="navbar col-lg-12 col-sm-12 p-0 fixed-top d-flex flex-row">
 	<div class="text-left navbar-brand-wrapper d-flex logo">
           <img src="assets/images/logoWhit.png" alt=""/>
 
@@ -111,7 +111,7 @@
 				  <div class="exampleLargeBox">
 					<form #logForm="ngForm" (ngSubmit)="Submit(logForm.value)" ngNativeValidate>
 						<div class="row mt-3">
-							<div class="col-6">
+							<div class="col-sm-6">
 								<input type="hidden" name="user" [(ngModel)]="Email" class="form-control">
 								<input type="hidden" name="emp_id" [(ngModel)]="Emp_id" class="form-control">
 								<label>Name</label>
@@ -120,21 +120,21 @@
 									<strong>*Please provide Name</strong>
 								  </div>
 							</div>
-							<div class="col-6">
+							<div class="col-sm-6">
 								<label>Email</label>
 								 <input type="email" name="email" id="email" #email="ngModel" ngModel  class="form-control" readonly>
 
 							</div>
 						</div>
 						<div class="row mt-3">
-							<div class="col-6">
+							<div class="col-sm-6">
 								<label>Contact No.(Personal)</label>
 								 <input type="text" maxlength="10" minlength="10" name="per_cnct_no" id="Per_cnct_no" #per_cnct_no="ngModel" required ngModel class="form-control" (keypress)="PreventNonNumeric($event)">
 								 <div *ngIf="per_cnct_no.errors?.required && (per_cnct_no.touched || per_cnct_no.dirty)" class="text-danger mt-3">
 									<strong>*Please provide personal contact no</strong>
 								  </div>
 							</div>
-							<div class="col-6">
+							<div class="col-sm-6">
 								<label>Contact No.(ER)</label>
 								 <input type="text" maxlength="10" minlength="10" name="er_cnct_no" id="Er_cnct_no" #er_cnct_no="ngModel" ngModel  class="form-control" (keypress)="PreventNonNumeric($event)">
 
@@ -142,7 +142,7 @@
 						</div>
 
 						<div class="row mt-3">
-							<div class="col-6">
+							<div class="col-sm-6">
 								<label>User Type</label>
 								 <input type="text" name="user_type" id="user_type" #user_type="ngModel" ngModel class="form-control" readonly>
 
@@ -161,7 +161,7 @@
 					<form #LogForm="ngForm" (ngSubmit)="Submit_password(LogForm.value)" ngNativeValidate>
 						<div class="row mb-2">
 
-							<div class="col-6 ">
+							<div class="col-sm-6 ">
 			                   <input type="hidden" name="user" [(ngModel)]="Email" class="form-control">
 			                   <input type="hidden" name="emp_id" [(ngModel)]="Emp_id" class="form-control">
 
@@ -172,8 +172,8 @@
 									<strong>*Please provide old password</strong>
 								  </div>
 							</div>
-							<div class="col-6"></div>
-							<div class="col-6 mt-3">
+							<div class="col-sm-6"></div>
+							<div class="col-sm-6 mt-3">
 								<label>New Password</label>
 								<input  [type]="_n_pass ? 'password' : 'text'" class="form-control" name="pass" id="pass" #pass="ngModel" ngModel required>
                 <mat-icon (click)="show_pass('N')" class="toggle-password">remove_red_eye</mat-icon>
@@ -182,8 +182,8 @@
 									<strong>*Please provide new password</strong>
 								  </div>
 							</div>
-							<div class="col-6"></div>
-							<div class="col-6 mt-3">
+							<div class="col-sm-6"></div>
+							<div class="col-sm-6 mt-3">
 								<label>Confirm Password</label>
 								<input  [type]="_c_pass ? 'password' : 'text'" class="form-control" name="conf_pass" id="conf_pass" #conf_pass="ngModel" ngModel required>
                 <mat-icon (click)="show_pass('C')" class="toggle-password">remove_red_eye</mat-icon>

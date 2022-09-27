@@ -22,7 +22,8 @@ export class HeaderComponent implements OnInit {
   _c_pass:boolean = true;
   _n_pass:boolean = true;
   _o_pass:boolean = true;
-  _max_id!:any;
+  _max_id:any;
+  _inc_no:any;
   localStorageAlice = localStorage;
   @Input() IncID!:string;
   @Output() IncStatus= new EventEmitter<IncDetails>();
@@ -290,8 +291,11 @@ export class HeaderComponent implements OnInit {
   getDetails(_inc_no:number){
     var incStatus = this._activeIncBackup.find((x:any) => x.inc_no == _inc_no);
   //  console.log(incStatus);
-    this.Inc_Name = incStatus.inc_name + '(' +incStatus.inc_no +')';
-    this._selected_Inc = this.Inc_Name;
+    // this.Inc_Name = incStatus.inc_name + '(' +incStatus.inc_no +')';
+    // this._selected_Inc = this.Inc_Name;
+    this._inc_no = incStatus.inc_no;
+    this.Inc_Name = incStatus.inc_name;
+    this._selected_Inc = incStatus.inc_name + '(' +incStatus.inc_no +')';
     this.Inc_location=incStatus.offshore_name+" ("+incStatus.lat+" : "+incStatus.lon+ ")";
     this._initial_tier_id = incStatus.initial_tier_id
     this.tier=incStatus.tier_type;

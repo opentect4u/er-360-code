@@ -26,13 +26,9 @@ export class InvestigationComponent implements OnInit {
     private toastr:ToastrManager,
     private api_call:VirtualEmergencyService,
     private spinner:NgxSpinnerService
-    ) {
-      this.spinner.show();
-    }
+    ) {this.spinner.show();}
 
-  ngOnInit(): void {
-   this.fetchData();
-  }
+  ngOnInit(): void {this.fetchData();}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

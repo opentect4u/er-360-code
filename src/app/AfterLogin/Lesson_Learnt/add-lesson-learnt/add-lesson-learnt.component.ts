@@ -2,13 +2,14 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { VirtualEmergencyService } from 'src/app/Services/virtual-emergency.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { global_url_test } from 'src/app/url';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogalertComponent } from 'src/app/CommonDialogAlert/dialogalert/dialogalert.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-lesson-learnt',
@@ -26,6 +27,7 @@ export class AddLessonLearntComponent implements OnInit {
   constructor(private _route: Router,
     public dialog: MatDialog,
     private datePipe:DatePipe,
+    public sanitizer:DomSanitizer,
     private fb: FormBuilder,
     public route: ActivatedRoute,
     private api_call: VirtualEmergencyService,
@@ -151,18 +153,22 @@ export class AddLessonLearntComponent implements OnInit {
  }
 
   onFileChange(event: any) {
-
     if(event.target.files.length > 0){
             for (let i = 0; i < event.target.files.length; i++) {
               if(event.target.files[i].type == 'image/png' ||
               event.target.files[i].type == 'image/jpg' ||
               event.target.files[i].type == 'image/jpeg'){
                 this.lesson_learnt.value.file.push( event.target.files[i]);
-                var reader = new FileReader();
-                reader.onload = (event:any) => {
-                  this.FILE.push({file:event.target.result,id:0});
-                };
-                reader.readAsDataURL(event.target.files[i]);
+                this.FILE.push({file:URL.createObjectURL(
+                  new Blob([event.target.files[i]], {
+                    type: event.target.files[i].type.toString(),
+                  })
+                ),id:0});
+                // var reader = new FileReader();
+                // reader.onload = (event:any) => {
+                //   this.FILE.push({file:event.target.result,id:0});
+                // };
+                // reader.readAsDataURL(event.target.files[i]);
               }
               else{
                 this.toastr.errorToastr('Please Select correct format','',{position:'bottom-right',animate:'slideFromRight',toastTimeout:5000});
@@ -214,4 +220,8 @@ export class AddLessonLearntComponent implements OnInit {
       }
     })
   }
+  clickToOpenFile(File:any){
+    global_url_test.ClickToOpenFile(File);
+  }
+
 }
