@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { VirtualEmergencyService } from './../../../../Services/virtual-emergency.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -18,7 +19,11 @@ export class ContactCategoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matsort!: MatSort;
   displayedColumns: string[] = ['Sl.No','Name', 'Action'];
-  constructor(private route: Router,private api_call: VirtualEmergencyService,public dialog:MatDialog,) { }
+  constructor(
+    private route: Router,
+    private api_call: VirtualEmergencyService,
+    public dialog:MatDialog,
+    private spinner: NgxSpinnerService){ }
 
   ngOnInit(): void {
     this.getCategory();
@@ -28,10 +33,13 @@ export class ContactCategoryComponent implements OnInit {
     this.route.navigate(['/admin/cntcat',btoa(_id)]);
  }
  getCategory(){
+   console.log('sa');
+    this.spinner.show();
     this.api_call.global_service(0,'/contact_catg',null).pipe(map((x:any) => x.msg)).subscribe(res =>{
-    this.dataSource = new MatTableDataSource(res);
-    this.dataSource.paginator=this.paginator;
-    this.dataSource.sort=this.matsort;
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator=this.paginator;
+        this.dataSource.sort=this.matsort;
+        this.spinner.hide();
       })
  }
    //For FilterData from data table

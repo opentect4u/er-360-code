@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -31,6 +32,7 @@ export class InformationComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private router: Router,
+    private spinner:NgxSpinnerService,
     private api_call: VirtualEmergencyService) { }
 
   ngOnInit(): void {
@@ -41,6 +43,7 @@ export class InformationComponent implements OnInit {
    this.router.navigate(['/admin/cntinfo',btoa(id)])
   }
   setContactInformation(){
+    this.spinner.show();
     this.api_call.global_service(0,'/contact_info_dash',null).pipe(map((x:any) => x.msg)).subscribe(res =>{
      if(res){
       Object.keys(res).forEach(key => {
@@ -54,7 +57,7 @@ export class InformationComponent implements OnInit {
      else{
 
      }
-
+    this.spinner.hide();
     })
   }
      //For FilterData from data table

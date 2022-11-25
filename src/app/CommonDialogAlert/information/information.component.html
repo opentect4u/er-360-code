@@ -6,7 +6,7 @@
           <input matInput (keyup)="applyFilter($event)"
           placeholder="Search Contact Information" #input>
       </mat-form-field>
-
+      <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
           <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort  multiTemplateDataRows>
 

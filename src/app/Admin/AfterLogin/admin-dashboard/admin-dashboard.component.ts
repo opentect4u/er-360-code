@@ -116,7 +116,8 @@ export class AdminDashboardComponent implements OnInit {
 
   Actitve_incident(){
     this.emergencyservice.global_service('0','/get_active_inc',null).pipe(map((x:any) => x.msg)).subscribe(res=>{
-      localStorage.setItem('inc_no',res[0].inc_no);
+      // console.log(res);
+      localStorage.setItem('inc_no',res[0]?.inc_no);
       this.get_current_incident=res;
       if(res.length > 0){
         this.setCurrentIncidentDetails(this.get_current_incident[this.get_current_incident.length -1]);

@@ -17,6 +17,7 @@ export class EditAdminDepartmentComponent implements OnInit {
   constructor(private emergencyservice:VirtualEmergencyService,private activatedroute:ActivatedRoute,private route:Router,public toastr:ToastrManager,private spinner:NgxSpinnerService) { }
 
   ngOnInit(): void {
+    console.log('sas');
     this.id=this.activatedroute.snapshot.params['id'];
     var data='id='+this.id;
     this.getdetaprtmentDetailsById(data);
@@ -38,12 +39,15 @@ export class EditAdminDepartmentComponent implements OnInit {
     })
   }
   getdetaprtmentDetailsById(data:any){
+    console.log('asd');
+    this.spinner.show();
     this.emergencyservice.global_service('0','/department',data).pipe(map((x:any)=> x.msg)).subscribe(data=>{
     this.LogForm.setValue({
       id:this.id,
       user:localStorage.getItem('Email'),
       department:data[0].department_name
     })
+    this.spinner.hide();
   })
   }
   cancel(){

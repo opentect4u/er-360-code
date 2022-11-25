@@ -202,7 +202,7 @@ export class ModifyCntNotificationComponent implements OnInit {
   saveForm() {
     if(localStorage.getItem('inc_no') != ''){
       this.CntNotify.patchValue({
-        date:this.datePipe.transform(new Date(), 'YYYY-MM-ddTHH:mm:ss')
+        datetime:this.datePipe.transform(new Date(), 'YYYY-MM-ddTHH:mm:ss')
        });
       this.openDialog(this.CntNotify.value);
     }
@@ -213,7 +213,6 @@ export class ModifyCntNotificationComponent implements OnInit {
     //   datetime:this.datePipe.transform(new Date(), 'YYYY-MM-ddTHH:mm:ss')
     //  });
     // this.openDialog(this.CntNotify.value);
-
   }
   setFormControl(type: any, val: any) {
     switch (type) {
@@ -249,12 +248,10 @@ export class ModifyCntNotificationComponent implements OnInit {
       this.FAX.nativeElement.value = res;
     });
   }
- async submitSignature(event: any,type:any){
-  console.log(event.target.files)
+  async submitSignature(event: any,type:any){
      if(event.target.files.length > 0){
       if(await this.validateFileTYpe(event.target.files[0].name)){
         this.spinner.show();
-        // var api_name = type == 'P' ? '/preparedImg' : '/approvedImg';
         const fb = new FormData();
         fb.append('file',event.target.files[0]);
         this.api_call.global_service(1,'/upload_img',fb).subscribe((res: any) =>{
@@ -309,20 +306,19 @@ export class ModifyCntNotificationComponent implements OnInit {
       const disalogConfig = new MatDialogConfig();
       disalogConfig.disableClose = false;
       disalogConfig.autoFocus = true;
-    disalogConfig.width = '35%';
-    disalogConfig.data = { id: 0, api_name: '', name: 'C_notify' }
+      disalogConfig.width = '35%';
+      disalogConfig.data = { id: 0, api_name: '', name: 'C_notify' }
       const dialogref = this.dialog.open(DialogalertComponent, disalogConfig);
       dialogref.afterClosed().subscribe(dt => {
-        if (dt) {
-          this.callSubmit_api(data);}
-        else { }
+      if (dt) {this.callSubmit_api(data);}
+      else { }
       })
   }
 
   callSubmit_api(dt: any) {
     this.spinner.show();
     this.api_call.global_service(1, '/comcen_notification',this.CntNotify.value).subscribe((res:any) =>{
-        this.api_call.showToast(res.suc > 0 ? 'Save successfull . Please check the submitted form inside the ER-Repository Module' : 'Something went wrong! please try again later' , res.suc > 0 ? 'S' : 'E');
+        this.api_call.showToast(res.suc > 0 ? 'Save successfull .Please check the submitted form inside the ER-Repository Module' : 'Something went wrong! please try again later' , res.suc > 0 ? 'S' : 'E');
          if(res.suc > 0){
           this.spinner.hide();
           this.CntNotify.reset();
